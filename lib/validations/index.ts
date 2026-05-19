@@ -104,6 +104,24 @@ export const productSchema = z.object({
   }).optional(),
 });
 
+// Category validations
+export const categorySchema = z.object({
+  name: z.string().min(2).max(100),
+  slug: z.string().min(2).max(120).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Invalid slug'),
+  description: z.string().max(500).optional(),
+  image: z.string().url().optional(),
+  icon: z.string().max(100).optional(),
+  parent: z.string().optional(),
+  type: z.enum(['product', 'service', 'both']).default('both'),
+  isActive: z.boolean().optional(),
+  isFeatured: z.boolean().optional(),
+  seo: z.object({
+    metaTitle: z.string().max(100).optional(),
+    metaDescription: z.string().max(180).optional(),
+    keywords: z.array(z.string()).optional(),
+  }).optional(),
+});
+
 // Service validations
 export const serviceSchema = z.object({
   title: z.string().min(3).max(200),
@@ -138,22 +156,30 @@ export const serviceSchema = z.object({
 // Order validations
 export const createOrderSchema = z.object({
   items: z.array(z.object({
-    productId: z.string(),
+    product: z.string().optional(),
+    productId: z.string().optional(),
     quantity: z.number().int().positive(),
     selectedVariant: z.string().optional(),
+    variant: z.string().optional(),
+    customization: z.string().max(500).optional(),
   })).min(1),
   shippingAddress: z.object({
-    name: z.string().min(2),
+    name: z.string().min(2).optional(),
+    fullName: z.string().min(2).optional(),
     phone: z.string(),
-    street: z.string().min(5),
+    street: z.string().min(5).optional(),
+    address: z.string().min(5).optional(),
     city: z.string().min(2),
     state: z.string().optional(),
     postalCode: z.string(),
     country: z.string().default('Pakistan'),
   }),
   paymentMethod: z.enum(['cod', 'bank_transfer', 'easypaisa', 'jazzcash', 'card']),
+  notes: z.string().max(500).optional(),
   customerNotes: z.string().max(500).optional(),
 });
+
+export const orderSchema = createOrderSchema;
 
 // Service request validations
 export const serviceRequestSchema = z.object({
@@ -179,6 +205,10 @@ export const serviceRequestSchema = z.object({
 
 // Review validations
 export const reviewSchema = z.object({
+  product: z.string().optional(),
+  service: z.string().optional(),
+  serviceRequest: z.string().optional(),
+  order: z.string().optional(),
   rating: z.number().int().min(1).max(5),
   title: z.string().max(100).optional(),
   comment: z.string().min(10).max(2000),
@@ -203,6 +233,7 @@ export type SignInInput = z.infer<typeof signInSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 export type EntrepreneurProfileInput = z.infer<typeof entrepreneurProfileSchema>;
 export type ProductInput = z.infer<typeof productSchema>;
+export type CategoryInput = z.infer<typeof categorySchema>;
 export type ServiceInput = z.infer<typeof serviceSchema>;
 export type CreateOrderInput = z.infer<typeof createOrderSchema>;
 export type ServiceRequestInput = z.infer<typeof serviceRequestSchema>;

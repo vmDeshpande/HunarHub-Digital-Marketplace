@@ -222,14 +222,13 @@ const orderSchema = new Schema<IOrder>(
 );
 
 // Pre-save hook to add status to history
-orderSchema.pre('save', function (next) {
+orderSchema.pre('save', function () {
   if (this.isModified('status')) {
     this.statusHistory.push({
       status: this.status,
       timestamp: new Date(),
     });
   }
-  next();
 });
 
 // Indexes

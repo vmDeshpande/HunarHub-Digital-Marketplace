@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
       query.isFeatured = true;
     }
 
-    let categories = await Category.find(query)
+    let categories: any[] = await Category.find(query)
       .sort({ order: 1, name: 1 })
       .lean();
 

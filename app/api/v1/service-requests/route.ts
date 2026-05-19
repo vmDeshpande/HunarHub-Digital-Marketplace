@@ -103,17 +103,22 @@ export async function POST(request: NextRequest) {
       service: serviceId,
       customer: session.user.id,
       entrepreneur,
-      requirements: {
-        description: requirements.description,
+      title: body.title || service.title,
+      description: requirements.description || body.description || notes || service.description,
+      requirements: requirements.details || requirements.description || body.requirements || '',
+      budget: requirements.budget,
+      timeline: {
         deadline: requirements.deadline,
-        budget: requirements.budget,
       },
-      contactInfo: {
-        phone: contactInfo.phone,
-        email: session.user.email,
-      },
-      notes,
       status: 'pending',
+      messages: contactInfo?.phone
+        ? [{
+            sender: session.user.id,
+            message: `Contact phone: ${contactInfo.phone}`,
+            sentAt: new Date(),
+            isRead: false,
+          }]
+        : [],
     });
 
     // Update service stats

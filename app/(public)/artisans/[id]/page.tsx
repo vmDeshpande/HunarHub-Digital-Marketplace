@@ -158,8 +158,31 @@ export default function ArtisanProfilePage() {
   const [activeTab, setActiveTab] = useState("products");
 
   const artisan = mockArtisan;
-  const products = mockProducts;
-  const services = mockServices;
+  const products = mockProducts.map((product) => ({
+    ...product,
+    rating: { average: product.rating, count: product.reviewCount },
+    entrepreneur: {
+      businessName: artisan.businessName,
+      slug: "fatima-embroidery-studio",
+    },
+    stock: product.inStock ? 12 : 0,
+    attributes: { handmade: true },
+  }));
+  const services = mockServices.map((service) => ({
+    ...service,
+    shortDescription: service.description,
+    price: service.pricing.basePrice,
+    pricingType: service.pricing.type,
+    rating: { average: service.rating, count: service.reviewCount },
+    entrepreneur: {
+      businessName: artisan.businessName,
+      slug: "fatima-embroidery-studio",
+      logo: artisan.user.avatar,
+      location: { city: artisan.location.city },
+      isVerified: artisan.verified,
+    },
+    location: { onsite: true, remote: true },
+  }));
   const reviews = mockReviews;
 
   return (

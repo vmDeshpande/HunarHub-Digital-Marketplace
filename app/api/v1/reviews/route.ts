@@ -30,11 +30,11 @@ export async function GET(request: NextRequest) {
     if (productId) query.product = productId;
     if (serviceId) query.service = serviceId;
     if (entrepreneurId) query.entrepreneur = entrepreneurId;
-    if (customerId) query.customer = customerId;
+    if (customerId) query.reviewer = customerId;
 
     const [reviews, total] = await Promise.all([
       Review.find(query)
-        .populate("customer", "firstName lastName avatar")
+        .populate("reviewer", "name image")
         .populate("product", "title slug images")
         .populate("service", "title slug images")
         .sort({ createdAt: -1 })
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
     ]);
 
     // Calculate rating distribution if filtering by product/service/entrepreneur
-    let ratingDistribution = null;
+    let ratingDistribution: Record<1 | 2 | 3 | 4 | 5, number> | null = null;
     if (productId || serviceId || entrepreneurId) {
       const distributionQuery = { ...query };
       delete distributionQuery.status;
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
         { $sort: { _id: -1 } },
       ]);
 
-      ratingDistribution = {
+      const distributionCounts: Record<1 | 2 | 3 | 4 | 5, number> = {
         5: 0,
         4: 0,
         3: 0,
@@ -70,9 +70,11 @@ export async function GET(request: NextRequest) {
         1: 0,
       };
 
-      distribution.forEach((d) => {
-        ratingDistribution[d._id as keyof typeof ratingDistribution] = d.count;
+      distribution.forEach((d: { _id: 1 | 2 | 3 | 4 | 5; count: number }) => {
+        distributionCounts[d._id] = d.count;
       });
+
+      ratingDistribution = distributionCounts;
     }
 
     return NextResponse.json({
@@ -127,7 +129,7 @@ export async function POST(request: NextRequest) {
     // Verify the customer has purchased the product/service
     if (validatedData.product) {
       const order = await Order.findOne({
-        customer: session.user.id,
+        reviewer: session.user.id,
         "items.product": validatedData.product,
         status: "delivered",
       });
@@ -144,7 +146,7 @@ export async function POST(request: NextRequest) {
 
       // Check if already reviewed
       const existingReview = await Review.findOne({
-        customer: session.user.id,
+        reviewer: session.user.id,
         product: validatedData.product,
       });
 
@@ -169,9 +171,11 @@ export async function POST(request: NextRequest) {
     // Create review
     const review = await Review.create({
       ...validatedData,
-      customer: session.user.id,
+      reviewer: session.user.id,
+      reviewType: validatedData.product ? "product" : validatedData.service ? "service" : "entrepreneur",
       entrepreneur,
       status: "approved", // Auto-approve for now, can be changed to "pending" for moderation
+      isVerifiedPurchase: Boolean(validatedData.product),
     });
 
     // Update product/service rating
@@ -184,8 +188,10 @@ export async function POST(request: NextRequest) {
         reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
 
       await Product.findByIdAndUpdate(validatedData.product, {
-        rating: Math.round(avgRating * 10) / 10,
-        reviewCount: reviews.length,
+        rating: {
+          average: Math.round(avgRating * 10) / 10,
+          count: reviews.length,
+        },
       });
     } else if (validatedData.service) {
       const reviews = await Review.find({
@@ -196,8 +202,10 @@ export async function POST(request: NextRequest) {
         reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
 
       await Service.findByIdAndUpdate(validatedData.service, {
-        rating: Math.round(avgRating * 10) / 10,
-        reviewCount: reviews.length,
+        rating: {
+          average: Math.round(avgRating * 10) / 10,
+          count: reviews.length,
+        },
       });
     }
 
@@ -211,27 +219,28 @@ export async function POST(request: NextRequest) {
         allReviews.reduce((sum, r) => sum + r.rating, 0) / allReviews.length;
 
       const entrepreneurProfile = await EntrepreneurProfile.findByIdAndUpdate(entrepreneur, {
-        rating: Math.round(avgRating * 10) / 10,
-        reviewCount: allReviews.length,
+        rating: {
+          average: Math.round(avgRating * 10) / 10,
+          count: allReviews.length,
+        },
       });
 
       // Notify entrepreneur
       await Notification.create({
-        recipient: entrepreneurProfile?.user,
-        type: "review",
+        user: entrepreneurProfile?.user,
+        type: "new_review",
         title: "New Review Received",
         message: `You received a ${validatedData.rating}-star review`,
         link: validatedData.product
           ? `/entrepreneur/products/${validatedData.product}`
           : `/entrepreneur/services/${validatedData.service}`,
-        relatedId: review._id,
-        relatedModel: "Review",
+        data: { reviewId: review._id },
       });
     }
 
     // Populate and return
     const populatedReview = await Review.findById(review._id)
-      .populate("customer", "firstName lastName avatar")
+      .populate("reviewer", "name image")
       .populate("product", "title slug")
       .populate("service", "title slug");
 

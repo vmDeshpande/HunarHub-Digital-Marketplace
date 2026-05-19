@@ -21,12 +21,15 @@ import {
 } from 'lucide-react';
 import { formatPrice, getInitials } from '@/lib/utils/helpers';
 import { toast } from 'sonner';
+import { useCartStore } from '@/lib/stores/cart-store';
 
 interface ProductInfoProps {
   product: {
     _id: string;
     title: string;
+    slug?: string;
     shortDescription?: string;
+    images?: string[];
     price: number;
     compareAtPrice?: number;
     currency: string;
@@ -66,6 +69,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const { addItem, openCart } = useCartStore();
 
   const discountPercentage =
     product.compareAtPrice && product.compareAtPrice > product.price
@@ -81,11 +85,23 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    addItem({
+      productId: product._id,
+      title: product.title,
+      slug: product.slug || product._id,
+      image: product.images?.[0] || '',
+      price: product.price,
+      quantity,
+      entrepreneur: {
+        id: product.entrepreneur._id,
+        businessName: product.entrepreneur.businessName,
+      },
+      maxQuantity: product.stock,
+    });
     toast.success('Added to cart', {
       description: `${quantity} x ${product.title}`,
     });
+    openCart();
     setIsAddingToCart(false);
   };
 

@@ -113,18 +113,27 @@ export async function POST(request: NextRequest) {
     const orderItems = [];
 
     for (const item of validatedData.items) {
-      const product = await Product.findById(item.product).populate(
+      const productId = item.product || item.productId;
+
+      if (!productId) {
+        return NextResponse.json(
+          { success: false, error: "Product is required for every order item" },
+          { status: 400 }
+        );
+      }
+
+      const product = await Product.findById(productId).populate(
         "entrepreneur"
       );
 
       if (!product) {
         return NextResponse.json(
-          { success: false, error: `Product ${item.product} not found` },
+          { success: false, error: `Product ${productId} not found` },
           { status: 400 }
         );
       }
 
-      if (product.inventory.quantity < item.quantity) {
+      if (product.stock < item.quantity) {
         return NextResponse.json(
           {
             success: false,
@@ -136,27 +145,40 @@ export async function POST(request: NextRequest) {
 
       orderItems.push({
         product: product._id,
+        title: product.title,
+        image: product.images[0],
         quantity: item.quantity,
         price: product.price,
-        variant: item.variant,
-        customization: item.customization,
+        selectedVariant: item.selectedVariant || item.variant,
+        subtotal: product.price * item.quantity,
       });
 
       subtotal += product.price * item.quantity;
 
       // Update inventory
       await Product.findByIdAndUpdate(product._id, {
-        $inc: { "inventory.quantity": -item.quantity },
+        $inc: { stock: -item.quantity },
       });
     }
 
     // Get entrepreneur from first product (assuming single seller order for simplicity)
+    const firstProductId = validatedData.items[0].product || validatedData.items[0].productId;
     const firstProduct = await Product.findById(
-      validatedData.items[0].product
+      firstProductId
     ).populate("entrepreneur");
 
     // Calculate shipping (simplified)
     const shipping = subtotal > 5000 ? 0 : 250;
+
+    const shippingAddress = {
+      name: validatedData.shippingAddress.name || validatedData.shippingAddress.fullName,
+      phone: validatedData.shippingAddress.phone,
+      street: validatedData.shippingAddress.street || validatedData.shippingAddress.address,
+      city: validatedData.shippingAddress.city,
+      state: validatedData.shippingAddress.state,
+      postalCode: validatedData.shippingAddress.postalCode,
+      country: validatedData.shippingAddress.country,
+    };
 
     // Create order
     const order = await Order.create({
@@ -165,13 +187,15 @@ export async function POST(request: NextRequest) {
       entrepreneur: firstProduct?.entrepreneur._id,
       items: orderItems,
       subtotal,
-      shipping,
+      shippingCost: shipping,
+      discount: 0,
       total: subtotal + shipping,
-      shippingAddress: validatedData.shippingAddress,
+      shippingAddress,
       paymentMethod: validatedData.paymentMethod,
+      customerNotes: validatedData.customerNotes || validatedData.notes,
       status: "pending",
       paymentStatus: "pending",
-      timeline: [
+      statusHistory: [
         {
           status: "pending",
           timestamp: new Date(),
@@ -181,14 +205,14 @@ export async function POST(request: NextRequest) {
     });
 
     // Create notification for entrepreneur
+    const entrepreneurProfile = firstProduct?.entrepreneur as any;
     await Notification.create({
-      recipient: firstProduct?.entrepreneur.user,
-      type: "order",
+      user: entrepreneurProfile?.user,
+      type: "order_placed",
       title: "New Order Received",
       message: `You have received a new order #${order.orderNumber}`,
       link: `/entrepreneur/orders/${order._id}`,
-      relatedId: order._id,
-      relatedModel: "Order",
+      data: { orderId: order._id },
     });
 
     // Populate and return

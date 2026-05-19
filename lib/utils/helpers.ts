@@ -68,8 +68,10 @@ export function truncateText(text: string, maxLength: number): string {
 /**
  * Get initials from name
  */
-export function getInitials(name: string): string {
-  return name
+export function getInitials(...names: string[]): string {
+  return names
+    .filter(Boolean)
+    .join(' ')
     .split(' ')
     .map((n) => n[0])
     .join('')
@@ -146,9 +148,10 @@ export function parseSearchParams(params: Record<string, string | undefined>): {
 
   // Price range
   if (params.minPrice || params.maxPrice) {
-    filter.price = {};
-    if (params.minPrice) filter.price.$gte = parseFloat(params.minPrice);
-    if (params.maxPrice) filter.price.$lte = parseFloat(params.maxPrice);
+    const priceFilter: { $gte?: number; $lte?: number } = {};
+    if (params.minPrice) priceFilter.$gte = parseFloat(params.minPrice);
+    if (params.maxPrice) priceFilter.$lte = parseFloat(params.maxPrice);
+    filter.price = priceFilter;
   }
 
   // Rating filter

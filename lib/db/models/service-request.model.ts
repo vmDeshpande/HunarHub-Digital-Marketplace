@@ -220,14 +220,13 @@ const serviceRequestSchema = new Schema<IServiceRequest>(
 );
 
 // Pre-save hook to add status to history
-serviceRequestSchema.pre('save', function (next) {
+serviceRequestSchema.pre('save', function () {
   if (this.isModified('status')) {
     this.statusHistory.push({
       status: this.status,
       timestamp: new Date(),
     });
   }
-  next();
 });
 
 // Indexes

@@ -48,4 +48,4 @@ export async function connectToDatabase() {
   return cached.conn;
 }
 
-export default mongoose;
+export default connectToDatabase;

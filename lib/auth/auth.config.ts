@@ -10,6 +10,7 @@ declare module 'next-auth' {
       name: string;
       image?: string;
       role: UserRole;
+      entrepreneurId?: string;
     };
   }
   
@@ -19,20 +20,13 @@ declare module 'next-auth' {
     name: string;
     image?: string;
     role: UserRole;
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    id: string;
-    role: UserRole;
+    entrepreneurId?: string;
   }
 }
 
 export const authConfig: NextAuthConfig = {
   pages: {
     signIn: '/auth/login',
-    signUp: '/auth/register',
     error: '/auth/error',
   },
   callbacks: {
@@ -97,13 +91,15 @@ export const authConfig: NextAuthConfig = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.entrepreneurId = user.entrepreneurId;
       }
       return token;
     },
     session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id;
-        session.user.role = token.role;
+        session.user.id = String(token.id);
+        session.user.role = token.role as UserRole;
+        session.user.entrepreneurId = token.entrepreneurId ? String(token.entrepreneurId) : undefined;
       }
       return session;
     },

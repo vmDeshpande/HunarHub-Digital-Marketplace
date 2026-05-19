@@ -38,7 +38,7 @@ interface ShippingAddress {
 export default function CheckoutPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const { items, getTotalPrice, clearCart } = useCartStore();
+  const { items, getSubtotal, clearCart } = useCartStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('cod');
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
@@ -91,17 +91,18 @@ export default function CheckoutPage() {
     try {
       const orderData = {
         items: items.map(item => ({
-          product: item.id,
+          productId: item.productId,
           quantity: item.quantity,
+          variant: item.variant,
           price: item.price,
           customization: item.customization,
         })),
         shippingAddress,
         paymentMethod,
-        notes: orderNotes,
-        subtotal: getTotalPrice(),
-        shippingCost: getTotalPrice() >= 5000 ? 0 : 250,
-        total: getTotalPrice() + (getTotalPrice() >= 5000 ? 0 : 250),
+        customerNotes: orderNotes,
+        subtotal: getSubtotal(),
+        shippingCost: getSubtotal() >= 5000 ? 0 : 250,
+        total: getSubtotal() + (getSubtotal() >= 5000 ? 0 : 250),
       };
 
       const response = await fetch('/api/v1/orders', {
@@ -118,7 +119,7 @@ export default function CheckoutPage() {
 
       clearCart();
       toast.success('Order placed successfully!');
-      router.push(`/customer/orders/${result.data.order._id}`);
+      router.push(`/customer/orders/${result.data._id}`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to place order');
     } finally {
@@ -134,7 +135,7 @@ export default function CheckoutPage() {
     );
   }
 
-  const subtotal = getTotalPrice();
+  const subtotal = getSubtotal();
   const shippingCost = subtotal >= 5000 ? 0 : 250;
   const total = subtotal + shippingCost;
 
@@ -314,12 +315,12 @@ export default function CheckoutPage() {
                   {/* Items */}
                   <div className="space-y-3 max-h-64 overflow-y-auto">
                     {items.map((item) => (
-                      <div key={item.id} className="flex gap-3">
+                      <div key={`${item.productId}-${item.variant || 'default'}`} className="flex gap-3">
                         <div className="relative w-16 h-16 rounded-md overflow-hidden bg-muted flex-shrink-0">
                           {item.image ? (
                             <Image
                               src={item.image}
-                              alt={item.name}
+                              alt={item.title}
                               fill
                               className="object-cover"
                             />
@@ -330,7 +331,7 @@ export default function CheckoutPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm truncate">{item.name}</p>
+                          <p className="font-medium text-sm truncate">{item.title}</p>
                           <p className="text-xs text-muted-foreground">
                             Qty: {item.quantity}
                           </p>

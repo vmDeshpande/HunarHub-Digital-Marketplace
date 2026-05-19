@@ -277,7 +277,7 @@ function OrderDetailsDialog({ order }: { order: typeof orders[0] }) {
                 </div>
                 <div className="flex-1">
                   <p className="font-medium">{item.product.title}</p>
-                  {item.variant && (
+                  {"variant" in item && item.variant && (
                     <p className="text-sm text-muted-foreground">{item.variant}</p>
                   )}
                   <p className="text-sm">Qty: {item.quantity}</p>

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import dbConnect from '@/lib/db/mongoose';
 import { EntrepreneurProfile } from '@/lib/db/models';
+import { generateSlug } from '@/lib/utils/helpers';
 
 // GET /api/v1/entrepreneur/profile - Get current entrepreneur's profile
 export async function GET() {
@@ -24,13 +25,14 @@ export async function GET() {
       profile = await EntrepreneurProfile.create({
         user: session.user.id,
         businessName: `${session.user.name}'s Workshop`,
-        bio: '',
+        slug: generateSlug(`${session.user.name}'s Workshop`),
+        description: 'Tell customers about your craft, process, and the products or services you offer.',
         location: {
           city: '',
           state: '',
           country: 'Pakistan',
         },
-        contactInfo: {
+        contact: {
           email: session.user.email,
         },
       });
@@ -66,14 +68,18 @@ export async function PUT(request: NextRequest) {
 
     const allowedFields = [
       'businessName',
-      'bio',
+      'tagline',
+      'description',
+      'logo',
       'coverImage',
+      'gallery',
       'location',
-      'contactInfo',
+      'contact',
       'socialLinks',
-      'specializations',
-      'workingHours',
-      'policies',
+      'skills',
+      'categories',
+      'bankDetails',
+      'cnicNumber',
     ];
 
     const updateData: Record<string, unknown> = {};

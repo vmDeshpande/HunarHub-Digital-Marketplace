@@ -1,18 +1,8 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/components/providers/auth-provider'
 import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
-
-const geistSans = Geist({ 
-  subsets: ["latin"],
-  variable: '--font-geist-sans',
-});
-const geistMono = Geist_Mono({ 
-  subsets: ["latin"],
-  variable: '--font-geist-mono',
-});
 
 export const metadata: Metadata = {
   title: {
@@ -74,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en">
       <body className="font-sans antialiased bg-background">
         <AuthProvider>
           {children}
