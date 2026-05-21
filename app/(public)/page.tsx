@@ -43,7 +43,7 @@ const features = [
   {
     icon: Truck,
     title: 'Nationwide Delivery',
-    description: 'Fast and reliable shipping across Pakistan',
+    description: 'Fast and reliable shipping across India',
   },
   {
     icon: Star,
@@ -62,18 +62,18 @@ const featuredProducts = [
     price: 4500,
     compareAtPrice: 5500,
     rating: { average: 4.8, count: 124 },
-    entrepreneur: { businessName: 'Multan Pottery House', slug: 'multan-pottery' },
+    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
     stock: 15,
     attributes: { handmade: true },
   },
   {
     _id: '2',
-    title: 'Handwoven Sindhi Ajrak Shawl',
-    slug: 'handwoven-sindhi-ajrak-shawl',
+    title: 'Handwoven Indian Ajrak Shawl',
+    slug: 'handwoven-indian-ajrak-shawl',
     images: ['/images/placeholder-product.jpg'],
     price: 3200,
     rating: { average: 4.9, count: 89 },
-    entrepreneur: { businessName: 'Sindh Crafts', slug: 'sindh-crafts' },
+    entrepreneur: { businessName: 'Bangalore Crafts', slug: 'bangalore-crafts' },
     stock: 8,
     attributes: { handmade: true },
   },
@@ -85,18 +85,18 @@ const featuredProducts = [
     price: 12500,
     compareAtPrice: 15000,
     rating: { average: 4.7, count: 56 },
-    entrepreneur: { businessName: 'Peshawar Metal Works', slug: 'peshawar-metal' },
+    entrepreneur: { businessName: 'Hyderabad Metal Works', slug: 'hyderabad-metal' },
     stock: 5,
     attributes: { handmade: true },
   },
   {
     _id: '4',
-    title: 'Truck Art Wooden Jewelry Box',
-    slug: 'truck-art-wooden-jewelry-box',
+    title: 'Art Wooden Jewelry Box',
+    slug: 'art-wooden-jewelry-box',
     images: ['/images/placeholder-product.jpg'],
     price: 2800,
     rating: { average: 4.6, count: 203 },
-    entrepreneur: { businessName: 'Lahore Art Studio', slug: 'lahore-art' },
+    entrepreneur: { businessName: 'Delhi Art Studio', slug: 'delhi-art' },
     stock: 20,
     attributes: { handmade: true },
   },
@@ -106,10 +106,10 @@ const featuredProducts = [
 const featuredArtisans = [
   {
     _id: '1',
-    businessName: 'Multan Pottery House',
-    slug: 'multan-pottery',
+    businessName: 'Mumbai Pottery House',
+    slug: 'mumbai-pottery',
     tagline: 'Traditional blue pottery since 1965',
-    location: { city: 'Multan', country: 'Pakistan' },
+    location: { city: 'Mumbai', country: 'India' },
     rating: { average: 4.9, count: 312 },
     stats: { totalProducts: 45, totalServices: 3 },
     isVerified: true,
@@ -117,10 +117,10 @@ const featuredArtisans = [
   },
   {
     _id: '2',
-    businessName: 'Sindh Crafts',
-    slug: 'sindh-crafts',
-    tagline: 'Authentic Sindhi handicrafts',
-    location: { city: 'Hyderabad', country: 'Pakistan' },
+    businessName: 'Bangalore Crafts',
+    slug: 'bangalore-crafts',
+    tagline: 'Authentic Indian handicrafts',
+    location: { city: 'Bangalore', country: 'India' },
     rating: { average: 4.8, count: 189 },
     stats: { totalProducts: 78, totalServices: 5 },
     isVerified: true,
@@ -128,10 +128,10 @@ const featuredArtisans = [
   },
   {
     _id: '3',
-    businessName: 'Peshawar Metal Works',
-    slug: 'peshawar-metal',
+    businessName: 'Hyderabad Metal Works',
+    slug: 'hyderabad-metal',
     tagline: 'Master copper and brass artisans',
-    location: { city: 'Peshawar', country: 'Pakistan' },
+    location: { city: 'Hyderabad', country: 'India' },
     rating: { average: 4.7, count: 156 },
     stats: { totalProducts: 34, totalServices: 2 },
     isVerified: true,
@@ -419,7 +419,7 @@ export default function HomePage() {
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/seller-guidelines">
+              <Link href="/auth/register?role=entrepreneur">
                 <Button size="lg" variant="outline">
                   Learn More
                 </Button>

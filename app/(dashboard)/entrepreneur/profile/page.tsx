@@ -83,7 +83,7 @@ export default function EntrepreneurProfilePage() {
     address: '',
     city: '',
     state: '',
-    country: 'Pakistan',
+    country: 'India',
     contactPhone: '',
     contactWhatsapp: '',
     contactEmail: '',
@@ -105,7 +105,7 @@ export default function EntrepreneurProfilePage() {
         address: entrepreneurProfile?.location?.address || '',
         city: entrepreneurProfile?.location?.city || '',
         state: entrepreneurProfile?.location?.state || '',
-        country: entrepreneurProfile?.location?.country || 'Pakistan',
+        country: entrepreneurProfile?.location?.country || 'India',
         contactPhone: entrepreneurProfile?.contactInfo?.phone || '',
         contactWhatsapp: entrepreneurProfile?.contactInfo?.whatsapp || '',
         contactEmail: entrepreneurProfile?.contactInfo?.email || user.email || '',
@@ -371,7 +371,7 @@ export default function EntrepreneurProfilePage() {
                       id="city"
                       value={formData.city}
                       onChange={(e) => handleInputChange('city', e.target.value)}
-                      placeholder="Karachi"
+                      placeholder="Delhi"
                       required
                     />
                   </div>
@@ -381,7 +381,7 @@ export default function EntrepreneurProfilePage() {
                       id="state"
                       value={formData.state}
                       onChange={(e) => handleInputChange('state', e.target.value)}
-                      placeholder="Sindh"
+                      placeholder="Delhi"
                       required
                     />
                   </div>

@@ -153,14 +153,14 @@ export function ProductTabs({ product }: ProductTabsProps) {
                 <p className="font-medium">Shipping Cost</p>
                 <p className="text-sm text-muted-foreground">
                   {product.shipping?.freeShipping
-                    ? 'Free shipping across Pakistan'
-                    : `Rs. ${product.shipping?.shippingCost || 300} within Pakistan`}
+                    ? 'Free shipping across India'
+                    : `₹ ${product.shipping?.shippingCost || 300} within India`}
                 </p>
               </div>
               <div>
                 <p className="font-medium">Delivery Areas</p>
                 <p className="text-sm text-muted-foreground">
-                  We deliver to all major cities in Pakistan. Remote areas may take additional time.
+                  We deliver to all major cities in India. Remote areas may take additional time.
                 </p>
               </div>
             </CardContent>

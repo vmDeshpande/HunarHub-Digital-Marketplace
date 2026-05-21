@@ -13,8 +13,10 @@ export const ourFileRouter = {
       return { userId: session.user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log('Profile upload complete for userId:', metadata.userId);
-      console.log('File URL:', file.ufsUrl);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Profile upload complete for userId:', metadata.userId);
+        console.log('File URL:', file.ufsUrl);
+      }
       return { uploadedBy: metadata.userId, url: file.ufsUrl };
     }),
 
@@ -28,7 +30,9 @@ export const ourFileRouter = {
       return { userId: session.user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log('Product image upload complete for userId:', metadata.userId);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Product image upload complete for userId:', metadata.userId);
+      }
       return { uploadedBy: metadata.userId, url: file.ufsUrl };
     }),
 
@@ -42,7 +46,9 @@ export const ourFileRouter = {
       return { userId: session.user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log('Service image upload complete for userId:', metadata.userId);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Service image upload complete for userId:', metadata.userId);
+      }
       return { uploadedBy: metadata.userId, url: file.ufsUrl };
     }),
 
@@ -56,7 +62,9 @@ export const ourFileRouter = {
       return { userId: session.user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log('Cover image upload complete for userId:', metadata.userId);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Cover image upload complete for userId:', metadata.userId);
+      }
       return { uploadedBy: metadata.userId, url: file.ufsUrl };
     }),
 } satisfies FileRouter;

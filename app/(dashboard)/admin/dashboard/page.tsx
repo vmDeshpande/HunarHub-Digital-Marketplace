@@ -113,7 +113,7 @@ const pendingApprovals = [
     type: "service",
     name: "Custom Pottery Workshop",
     user: {
-      name: "Multan Blue Pottery",
+      name: "Mumbai Blue Pottery",
       avatar: "/placeholder.svg?height=40&width=40",
     },
     requestedAt: "2024-01-18",
@@ -146,7 +146,7 @@ const recentActivity = [
   {
     _id: "4",
     action: "New entrepreneur",
-    details: "Kashmir Crafts verified and approved",
+    details: "Jaipur Crafts verified and approved",
     time: "2 hours ago",
     type: "entrepreneur",
   },
@@ -170,7 +170,7 @@ const topEntrepreneurs = [
   },
   {
     _id: "2",
-    businessName: "Multan Blue Pottery",
+    businessName: "Mumbai Blue Pottery",
     avatar: "/placeholder.svg?height=40&width=40",
     revenue: 245000,
     orders: 128,
@@ -349,7 +349,7 @@ export default function AdminDashboardPage() {
                 </div>
               ))}
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/admin/approvals">
+                <Link href="/admin/products">
                   View All
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>

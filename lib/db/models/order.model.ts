@@ -174,7 +174,7 @@ const orderSchema = new Schema<IOrder>(
       city: { type: String, required: true },
       state: String,
       postalCode: { type: String, required: true },
-      country: { type: String, default: 'Pakistan' },
+      country: { type: String, default: 'India' },
     },
     billingAddress: {
       name: String,

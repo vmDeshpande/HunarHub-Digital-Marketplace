@@ -77,7 +77,7 @@ const userSchema = new Schema<IUser>(
       city: String,
       state: String,
       postalCode: String,
-      country: { type: String, default: 'Pakistan' },
+      country: { type: String, default: 'India' },
     },
     emailVerified: Date,
     googleId: {

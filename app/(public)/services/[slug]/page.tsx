@@ -52,7 +52,7 @@ My expertise includes:
 - Resham (silk thread embroidery)
 - Gota work
 - Mirror work (shisha)
-- Kashmiri embroidery
+- Indian traditional embroidery
 - Contemporary fusion designs
 
 Each piece is handcrafted with attention to detail, using premium threads and materials. Whether you need embroidery for a bridal outfit, formal wear, or home decor, I ensure the highest quality craftsmanship.`,
@@ -88,8 +88,8 @@ Each piece is handcrafted with attention to detail, using premium threads and ma
     businessName: "Fatima's Embroidery Studio",
     bio: "Master embroiderer with 15+ years of experience in traditional Indian crafts.",
     location: {
-      city: "Lahore",
-      province: "Punjab",
+      city: "Delhi",
+      province: "Delhi",
     },
     rating: 4.9,
     reviewCount: 127,

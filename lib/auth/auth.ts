@@ -110,8 +110,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   events: {
     async signIn({ user }) {
-      // You can add logging or analytics here
-      console.log(`User signed in: ${user.email}`);
+      // Analytics or tracking can be added here
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`User signed in: ${user.email}`);
+      }
     },
   },
   debug: process.env.NODE_ENV === 'development',

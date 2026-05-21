@@ -18,14 +18,14 @@ async function getProduct(slug: string) {
   // Mock product data
   const product = {
     _id: '1',
-    title: 'Traditional Blue Pottery Vase - Multan Heritage Collection',
+    title: 'Traditional Blue Pottery Vase - Indian Heritage Collection',
     slug: 'traditional-blue-pottery-vase',
-    description: `Experience the timeless beauty of authentic Multan blue pottery with this exquisite handcrafted vase. Each piece is meticulously created using traditional techniques passed down through generations of skilled artisans.
+    description: `Experience the timeless beauty of authentic Indian blue pottery with this exquisite handcrafted vase. Each piece is meticulously created using traditional techniques passed down through generations of skilled artisans.
 
-This stunning vase features the signature cobalt blue and white color palette that Multan pottery is renowned for worldwide. The intricate floral and geometric patterns are hand-painted by master craftsmen, making each piece truly unique.
+This stunning vase features the signature cobalt blue and white color palette that Indian pottery is renowned for worldwide. The intricate floral and geometric patterns are hand-painted by master craftsmen, making each piece truly unique.
 
 **Features:**
-- 100% handmade by skilled Multan artisans
+- 100% handmade by skilled Indian artisans
 - Traditional cobalt blue and white design
 - Lead-free, food-safe glaze
 - Perfect for fresh or dried flower arrangements
@@ -37,7 +37,7 @@ This stunning vase features the signature cobalt blue and white color palette th
 - Handle with care
 
 Support Indian artisans and bring a piece of cultural heritage into your home with this beautiful pottery piece.`,
-    shortDescription: 'Exquisite handcrafted blue pottery vase from Multan, featuring traditional patterns and techniques passed down through generations.',
+    shortDescription: 'Exquisite handcrafted blue pottery vase from India, featuring traditional patterns and techniques passed down through generations.',
     images: [
       '/images/placeholder-product.jpg',
       '/images/placeholder-product.jpg',
@@ -46,10 +46,10 @@ Support Indian artisans and bring a piece of cultural heritage into your home wi
     ],
     category: { _id: '1', name: 'Pottery & Ceramics', slug: 'pottery' },
     subcategory: { _id: '2', name: 'Vases', slug: 'vases' },
-    tags: ['blue pottery', 'multan', 'handmade', 'traditional', 'home decor'],
+    tags: ['blue pottery', 'indian', 'handmade', 'traditional', 'home decor'],
     price: 4500,
     compareAtPrice: 5500,
-    currency: 'PKR',
+    currency: 'INR',
     stock: 15,
     sku: 'MBP-V001',
     attributes: {
@@ -76,13 +76,13 @@ Support Indian artisans and bring a piece of cultural heritage into your home wi
     },
     entrepreneur: {
       _id: '1',
-      businessName: 'Multan Pottery House',
-      slug: 'multan-pottery',
+      businessName: 'Mumbai Pottery House',
+      slug: 'mumbai-pottery',
       tagline: 'Traditional blue pottery since 1965',
       logo: '/images/placeholder-avatar.jpg',
       isVerified: true,
       rating: { average: 4.9, count: 312 },
-      location: { city: 'Multan', country: 'Pakistan' },
+      location: { city: 'Mumbai', country: 'India' },
     },
     reviews: [
       {
@@ -99,7 +99,7 @@ Support Indian artisans and bring a piece of cultural heritage into your home wi
         reviewer: { name: 'Ahmed Ali', image: '' },
         rating: 4,
         title: 'Great quality',
-        comment: 'Very happy with my purchase. The colors are vibrant and the design is authentic Multan pottery.',
+        comment: 'Very happy with my purchase. The colors are vibrant and the design is authentic Indian pottery.',
         createdAt: new Date('2024-01-10'),
         isVerifiedPurchase: true,
       },
@@ -124,7 +124,7 @@ const relatedProducts = [
     price: 8500,
     compareAtPrice: 10000,
     rating: { average: 4.7, count: 89 },
-    entrepreneur: { businessName: 'Multan Pottery House', slug: 'multan-pottery' },
+    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
     stock: 8,
     attributes: { handmade: true },
   },
@@ -135,7 +135,7 @@ const relatedProducts = [
     images: ['/images/placeholder-product.jpg'],
     price: 2500,
     rating: { average: 4.6, count: 56 },
-    entrepreneur: { businessName: 'Multan Pottery House', slug: 'multan-pottery' },
+    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
     stock: 20,
     attributes: { handmade: true },
   },
@@ -146,7 +146,7 @@ const relatedProducts = [
     images: ['/images/placeholder-product.jpg'],
     price: 6500,
     rating: { average: 4.9, count: 34 },
-    entrepreneur: { businessName: 'Multan Pottery House', slug: 'multan-pottery' },
+    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
     stock: 5,
     attributes: { handmade: true },
   },
@@ -157,7 +157,7 @@ const relatedProducts = [
     images: ['/images/placeholder-product.jpg'],
     price: 3200,
     rating: { average: 4.5, count: 78 },
-    entrepreneur: { businessName: 'Multan Pottery House', slug: 'multan-pottery' },
+    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
     stock: 12,
     attributes: { handmade: true },
   },

@@ -48,7 +48,7 @@ export default function CheckoutPage() {
     city: '',
     state: '',
     postalCode: '',
-    country: 'Pakistan',
+    country: 'India',
   });
   const [orderNotes, setOrderNotes] = useState('');
 
@@ -208,7 +208,7 @@ export default function CheckoutPage() {
                         id="city"
                         value={shippingAddress.city}
                         onChange={(e) => handleInputChange('city', e.target.value)}
-                        placeholder="Karachi"
+                        placeholder="Delhi"
                         required
                       />
                     </div>
@@ -218,7 +218,7 @@ export default function CheckoutPage() {
                         id="state"
                         value={shippingAddress.state}
                         onChange={(e) => handleInputChange('state', e.target.value)}
-                        placeholder="Sindh"
+                        placeholder="Delhi"
                         required
                       />
                     </div>

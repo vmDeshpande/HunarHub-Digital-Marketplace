@@ -53,7 +53,7 @@ export const entrepreneurProfileSchema = z.object({
   location: z.object({
     city: z.string().min(2),
     state: z.string().optional(),
-    country: z.string().default('Pakistan'),
+    country: z.string().default('India'),
   }),
   contact: z.object({
     phone: phoneSchema,
@@ -172,7 +172,7 @@ export const createOrderSchema = z.object({
     city: z.string().min(2),
     state: z.string().optional(),
     postalCode: z.string(),
-    country: z.string().default('Pakistan'),
+    country: z.string().default('India'),
   }),
   paymentMethod: z.enum(['cod', 'bank_transfer', 'easypaisa', 'jazzcash', 'card']),
   notes: z.string().max(500).optional(),

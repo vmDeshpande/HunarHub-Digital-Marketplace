@@ -54,7 +54,7 @@ const wishlistItems = [
       inStock: true,
       category: { name: "Home Decor" },
       entrepreneur: {
-        businessName: "Multan Blue Pottery",
+        businessName: "Mumbai Blue Pottery",
         avatar: "/placeholder.svg?height=40&width=40",
       },
     },
@@ -64,8 +64,8 @@ const wishlistItems = [
     _id: "2",
     product: {
       _id: "p2",
-      title: "Kashmiri Wool Shawl",
-      slug: "kashmiri-wool-shawl",
+      title: "Indian Wool Shawl",
+      slug: "indian-wool-shawl",
       images: ["/placeholder.svg?height=300&width=300"],
       price: 12000,
       rating: 4.9,
@@ -73,7 +73,7 @@ const wishlistItems = [
       inStock: true,
       category: { name: "Clothing" },
       entrepreneur: {
-        businessName: "Kashmir Crafts",
+        businessName: "Jaipur Crafts",
         avatar: "/placeholder.svg?height=40&width=40",
       },
     },
@@ -83,8 +83,8 @@ const wishlistItems = [
     _id: "3",
     product: {
       _id: "p3",
-      title: "Hand-Painted Truck Art Panel",
-      slug: "hand-painted-truck-art-panel",
+      title: "Hand-Painted Art Panel",
+      slug: "hand-painted-art-panel",
       images: ["/placeholder.svg?height=300&width=300"],
       price: 15000,
       compareAtPrice: 18000,
@@ -93,7 +93,7 @@ const wishlistItems = [
       inStock: false,
       category: { name: "Art" },
       entrepreneur: {
-        businessName: "Lahore Truck Art",
+        businessName: "Delhi Art Studio",
         avatar: "/placeholder.svg?height=40&width=40",
       },
     },
@@ -103,8 +103,8 @@ const wishlistItems = [
     _id: "4",
     product: {
       _id: "p4",
-      title: "Handwoven Sindhi Ralli Quilt",
-      slug: "handwoven-sindhi-ralli-quilt",
+      title: "Handwoven Indian Ralli Quilt",
+      slug: "handwoven-indian-ralli-quilt",
       images: ["/placeholder.svg?height=300&width=300"],
       price: 8500,
       rating: 4.7,
@@ -112,7 +112,7 @@ const wishlistItems = [
       inStock: true,
       category: { name: "Home Decor" },
       entrepreneur: {
-        businessName: "Sindhi Textiles",
+        businessName: "Bangalore Textiles",
         avatar: "/placeholder.svg?height=40&width=40",
       },
     },
@@ -132,7 +132,7 @@ const wishlistItems = [
       inStock: true,
       category: { name: "Kitchen" },
       entrepreneur: {
-        businessName: "Peshawar Metalworks",
+        businessName: "Hyderabad Metalworks",
         avatar: "/placeholder.svg?height=40&width=40",
       },
     },

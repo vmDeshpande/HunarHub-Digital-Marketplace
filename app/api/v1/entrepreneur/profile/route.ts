@@ -30,7 +30,7 @@ export async function GET() {
         location: {
           city: '',
           state: '',
-          country: 'Pakistan',
+          country: 'India',
         },
         contact: {
           email: session.user.email,

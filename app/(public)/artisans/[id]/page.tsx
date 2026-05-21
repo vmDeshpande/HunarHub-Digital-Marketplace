@@ -41,9 +41,9 @@ const mockArtisan = {
   bio: "Master embroiderer with over 15 years of experience in traditional Indian crafts. I specialize in zardozi, resham work, and contemporary fusion designs. My passion is preserving and promoting our rich cultural heritage through intricate handwork.",
   tagline: "Preserving Tradition, Creating Art",
   location: {
-    city: "Lahore",
-    province: "Punjab",
-    country: "Pakistan",
+    city: "Delhi",
+    province: "Delhi",
+    country: "India",
   },
   skills: [
     { _id: "1", name: "Zardozi" },

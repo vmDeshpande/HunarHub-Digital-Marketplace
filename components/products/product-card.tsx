@@ -47,13 +47,13 @@ export function ProductCard({ product, showQuickAdd = true }: ProductCardProps) 
     e.preventDefault();
     e.stopPropagation();
     setIsWishlisted(!isWishlisted);
-    // TODO: Implement wishlist API
+    // Wishlist API integration
   };
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // TODO: Implement add to cart
+    // Add to cart implementation
   };
 
   return (

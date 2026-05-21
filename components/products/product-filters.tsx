@@ -30,14 +30,14 @@ const categories = [
 ];
 
 const cities = [
-  'Lahore',
-  'Karachi',
-  'Multan',
-  'Peshawar',
+  'Delhi',
+  'Mumbai',
+  'Bangalore',
   'Hyderabad',
-  'Faisalabad',
-  'Islamabad',
-  'Quetta',
+  'Pune',
+  'Jaipur',
+  'Ahmedabad',
+  'Goa',
 ];
 
 export function ProductFilters() {

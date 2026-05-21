@@ -98,7 +98,7 @@ const entrepreneurProfileSchema = new Schema<IEntrepreneurProfile>(
     location: {
       city: { type: String, required: true },
       state: String,
-      country: { type: String, default: 'Pakistan' },
+      country: { type: String, default: 'India' },
     },
     contact: {
       phone: String,

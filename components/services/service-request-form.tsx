@@ -98,7 +98,7 @@ export function ServiceRequestForm({
         phone: '',
         additionalNotes: '',
       });
-      router.push('/customer/service-requests');
+      router.push('/customer/dashboard');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to submit request');
     } finally {

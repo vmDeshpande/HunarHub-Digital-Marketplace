@@ -16,8 +16,10 @@ const footerLinks = {
     { name: 'Seller Dashboard', href: '/entrepreneur/dashboard' },
   ],
   support: [
+    // Support links removed - pages don't exist
   ],
   company: [
+    // Company links removed - pages don't exist
   ],
 };
 
@@ -95,38 +97,6 @@ export function SiteFooter() {
             <h3 className="font-semibold mb-4">For Sellers</h3>
             <ul className="space-y-2">
               {footerLinks.sellers.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-4">Support</h3>
-            <ul className="space-y-2">
-              {footerLinks.support.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold mb-4">Company</h3>
-            <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}

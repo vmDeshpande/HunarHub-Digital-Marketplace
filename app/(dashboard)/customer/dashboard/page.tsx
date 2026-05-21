@@ -72,11 +72,11 @@ const recentOrders = [
     _id: "2",
     orderNumber: "HH-2024-001235",
     product: {
-      title: "Traditional Ajrak Print Shawl",
+      title: "Traditional Indian Print Shawl",
       image: "/placeholder.svg?height=60&width=60",
     },
     entrepreneur: {
-      businessName: "Sindhi Crafts Co.",
+      businessName: "Bangalore Crafts Co.",
     },
     total: 3200,
     status: "shipped",
@@ -90,7 +90,7 @@ const recentOrders = [
       image: "/placeholder.svg?height=60&width=60",
     },
     entrepreneur: {
-      businessName: "Swat Woodworks",
+      businessName: "Pune Woodworks",
     },
     total: 2800,
     status: "processing",
@@ -119,7 +119,7 @@ const recentRequests = [
       title: "Custom Pottery Making",
     },
     entrepreneur: {
-      businessName: "Multan Blue Pottery",
+      businessName: "Mumbai Blue Pottery",
       avatar: "/placeholder.svg?height=40&width=40",
     },
     status: "pending",
@@ -134,14 +134,14 @@ const wishlistItems = [
     image: "/placeholder.svg?height=80&width=80",
     price: 6500,
     compareAtPrice: 8000,
-    entrepreneur: { businessName: "Multan Blue Pottery" },
+    entrepreneur: { businessName: "Mumbai Blue Pottery" },
   },
   {
     _id: "2",
-    title: "Kashmiri Wool Shawl",
+    title: "Indian Wool Shawl",
     image: "/placeholder.svg?height=80&width=80",
     price: 12000,
-    entrepreneur: { businessName: "Kashmir Crafts" },
+    entrepreneur: { businessName: "Jaipur Crafts" },
   },
 ];
 

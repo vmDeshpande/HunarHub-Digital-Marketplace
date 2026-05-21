@@ -55,12 +55,12 @@ interface NavItem {
 const customerNavItems: NavItem[] = [
   { title: "Overview", href: "/customer/dashboard", icon: LayoutDashboard },
   { title: "My Orders", href: "/customer/orders", icon: ShoppingBag, badge: 2 },
-  { title: "Service Requests", href: "/customer/requests", icon: Briefcase },
+  // { title: "Service Requests", href: "/customer/requests", icon: Briefcase },
   { title: "Wishlist", href: "/customer/wishlist", icon: Heart, badge: 5 },
-  { title: "Messages", href: "/customer/messages", icon: MessageSquare, badge: 3 },
-  { title: "Reviews", href: "/customer/reviews", icon: Star },
+  // { title: "Messages", href: "/customer/messages", icon: MessageSquare, badge: 3 },
+  // { title: "Reviews", href: "/customer/reviews", icon: Star },
   { title: "Profile", href: "/customer/profile", icon: User },
-  { title: "Settings", href: "/customer/settings", icon: Settings },
+  // { title: "Settings", href: "/customer/settings", icon: Settings },
 ];
 
 const entrepreneurNavItems: NavItem[] = [
@@ -70,24 +70,24 @@ const entrepreneurNavItems: NavItem[] = [
   { title: "Orders", href: "/entrepreneur/orders", icon: ShoppingBag, badge: 4 },
   { title: "Service Requests", href: "/entrepreneur/requests", icon: FileText, badge: 2 },
   { title: "Analytics", href: "/entrepreneur/analytics", icon: BarChart3 },
-  { title: "Messages", href: "/entrepreneur/messages", icon: MessageSquare, badge: 5 },
-  { title: "Reviews", href: "/entrepreneur/reviews", icon: Star },
-  { title: "Store Settings", href: "/entrepreneur/store", icon: Store },
+  // { title: "Messages", href: "/entrepreneur/messages", icon: MessageSquare, badge: 5 },
+  // { title: "Reviews", href: "/entrepreneur/reviews", icon: Star },
+  // { title: "Store Settings", href: "/entrepreneur/store", icon: Store },
   { title: "Profile", href: "/entrepreneur/profile", icon: User },
-  { title: "Settings", href: "/entrepreneur/settings", icon: Settings },
+  // { title: "Settings", href: "/entrepreneur/settings", icon: Settings },
 ];
 
 const adminNavItems: NavItem[] = [
   { title: "Overview", href: "/admin/dashboard", icon: LayoutDashboard },
   { title: "Users", href: "/admin/users", icon: Users },
   { title: "Products", href: "/admin/products", icon: Package },
-  { title: "Services", href: "/admin/services", icon: Briefcase },
+  // { title: "Services", href: "/admin/services", icon: Briefcase },
   { title: "Categories", href: "/admin/categories", icon: Tags },
-  { title: "Skills", href: "/admin/skills", icon: Star },
+  // { title: "Skills", href: "/admin/skills", icon: Star },
   { title: "Orders", href: "/admin/orders", icon: ShoppingBag },
-  { title: "Reports", href: "/admin/reports", icon: FileText },
-  { title: "Analytics", href: "/admin/analytics", icon: BarChart3 },
-  { title: "Settings", href: "/admin/settings", icon: Settings },
+  // { title: "Reports", href: "/admin/reports", icon: FileText },
+  // { title: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  // { title: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
 function Sidebar({
