@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ProductCard } from './product-card';
 import { Button } from '@/components/ui/button';
@@ -25,87 +25,85 @@ interface ProductsGridProps {
   };
 }
 
-// Mock data - will be replaced with API call
-const mockProducts = [
-  {
-    _id: '1',
-    title: 'Traditional Blue Pottery Vase',
-    slug: 'traditional-blue-pottery-vase',
-    images: ['/images/placeholder-product.jpg'],
-    price: 4500,
-    compareAtPrice: 5500,
-    rating: { average: 4.8, count: 124 },
-    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
-    stock: 15,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '2',
-    title: 'Handwoven Indian Ajrak Shawl',
-    slug: 'handwoven-indian-ajrak-shawl',
-    images: ['/images/placeholder-product.jpg'],
-    price: 3200,
-    rating: { average: 4.9, count: 89 },
-    entrepreneur: { businessName: 'Bangalore Crafts', slug: 'bangalore-crafts' },
-    stock: 8,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '3',
-    title: 'Copper Engraved Tea Set',
-    slug: 'copper-engraved-tea-set',
-    images: ['/images/placeholder-product.jpg'],
-    price: 12500,
-    compareAtPrice: 15000,
-    rating: { average: 4.7, count: 56 },
-    entrepreneur: { businessName: 'Hyderabad Metal Works', slug: 'hyderabad-metal' },
-    stock: 5,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '4',
-    title: 'Art Wooden Jewelry Box',
-    slug: 'art-wooden-jewelry-box',
-    images: ['/images/placeholder-product.jpg'],
-    price: 2800,
-    rating: { average: 4.6, count: 203 },
-    entrepreneur: { businessName: 'Delhi Art Studio', slug: 'delhi-art' },
-    stock: 20,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '5',
-    title: 'Indian Embroidered Cushion Covers',
-    slug: 'indian-embroidered-cushion-covers',
-    images: ['/images/placeholder-product.jpg'],
-    price: 1800,
-    rating: { average: 4.5, count: 78 },
-    entrepreneur: { businessName: 'Jaipur Crafts', slug: 'jaipur-crafts' },
-    stock: 30,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '6',
-    title: 'Lacquer Ware Decorative Bowl',
-    slug: 'lacquer-ware-decorative-bowl',
-    images: ['/images/placeholder-product.jpg'],
-    price: 3500,
-    rating: { average: 4.4, count: 45 },
-    entrepreneur: { businessName: 'Pune Woodcraft', slug: 'pune-woodcraft' },
-    stock: 12,
-    attributes: { handmade: true },
-  },
-];
+interface ProductItem {
+  _id: string;
+  title: string;
+  slug: string;
+  images: string[];
+  price: number;
+  compareAtPrice?: number;
+  rating: { average: number; count: number };
+  entrepreneur?: { businessName: string; slug: string };
+  stock: number;
+  attributes?: { handmade?: boolean };
+}
+
+const sortMap: Record<string, { sortBy: string; sortOrder: 'asc' | 'desc' }> = {
+  newest: { sortBy: 'createdAt', sortOrder: 'desc' },
+  oldest: { sortBy: 'createdAt', sortOrder: 'asc' },
+  price_asc: { sortBy: 'price', sortOrder: 'asc' },
+  price_desc: { sortBy: 'price', sortOrder: 'desc' },
+  rating: { sortBy: 'rating.average', sortOrder: 'desc' },
+  popular: { sortBy: 'stats.views', sortOrder: 'desc' },
+};
 
 export function ProductsGrid({ searchParams }: ProductsGridProps) {
   const router = useRouter();
   const urlSearchParams = useSearchParams();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [products, setProducts] = useState<ProductItem[]>([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const currentPage = parseInt(searchParams.page || '1');
+  const currentPage = parseInt(searchParams.page || '1', 10);
   const sort = searchParams.sort || 'newest';
-  const totalProducts = mockProducts.length;
-  const totalPages = Math.ceil(totalProducts / 12);
+
+  const buildQuery = () => {
+    const params = new URLSearchParams();
+
+    if (searchParams.q) params.set('search', searchParams.q);
+    if (searchParams.category) params.set('category', searchParams.category);
+    if (searchParams.minPrice) params.set('minPrice', searchParams.minPrice);
+    if (searchParams.maxPrice) params.set('maxPrice', searchParams.maxPrice);
+    if (searchParams.page) params.set('page', searchParams.page);
+
+    const sortConfig = sortMap[sort] || sortMap.newest;
+    params.set('sortBy', sortConfig.sortBy);
+    params.set('sortOrder', sortConfig.sortOrder);
+
+    return params.toString();
+  };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true);
+
+      try {
+        const queryString = buildQuery();
+        const response = await fetch(`/api/v1/products?${queryString}`);
+        const json = await response.json();
+
+        if (response.ok && json.success) {
+          setProducts(json.data.products || []);
+          setTotalProducts(json.data.pagination?.total || 0);
+          setTotalPages(json.data.pagination?.totalPages || 1);
+        } else {
+          setProducts([]);
+          setTotalProducts(0);
+          setTotalPages(1);
+        }
+      } catch (error) {
+        setProducts([]);
+        setTotalProducts(0);
+        setTotalPages(1);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [searchParams.q, searchParams.category, searchParams.minPrice, searchParams.maxPrice, searchParams.sort, searchParams.page]);
 
   const handleSortChange = (value: string) => {
     const params = new URLSearchParams(urlSearchParams.toString());
@@ -167,7 +165,13 @@ export function ProductsGrid({ searchParams }: ProductsGridProps) {
       </div>
 
       {/* Products */}
-      {mockProducts.length > 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="space-y-3 rounded-2xl bg-muted/40 p-6 animate-pulse" />
+          ))}
+        </div>
+      ) : products.length > 0 ? (
         <div
           className={
             viewMode === 'grid'
@@ -175,7 +179,7 @@ export function ProductsGrid({ searchParams }: ProductsGridProps) {
               : 'space-y-4'
           }
         >
-          {mockProducts.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>

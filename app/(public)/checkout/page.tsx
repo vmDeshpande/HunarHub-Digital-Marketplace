@@ -91,6 +91,7 @@ export default function CheckoutPage() {
     try {
       const orderData = {
         items: items.map(item => ({
+          product: item.slug,
           productId: item.productId,
           quantity: item.quantity,
           variant: item.variant,
@@ -172,7 +173,7 @@ export default function CheckoutPage() {
                         id="fullName"
                         value={shippingAddress.fullName}
                         onChange={(e) => handleInputChange('fullName', e.target.value)}
-                        placeholder="Muhammad Ali"
+                        placeholder="Vedant Deshpande"
                         required
                       />
                     </div>
@@ -183,7 +184,7 @@ export default function CheckoutPage() {
                         type="tel"
                         value={shippingAddress.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        placeholder="+92 300 1234567"
+                        placeholder="+91 9975xxxxxx"
                         required
                       />
                     </div>
@@ -231,7 +232,7 @@ export default function CheckoutPage() {
                         id="postalCode"
                         value={shippingAddress.postalCode}
                         onChange={(e) => handleInputChange('postalCode', e.target.value)}
-                        placeholder="75500"
+                        placeholder="422001"
                         required
                       />
                     </div>

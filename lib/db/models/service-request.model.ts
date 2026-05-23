@@ -230,7 +230,6 @@ serviceRequestSchema.pre('save', function () {
 });
 
 // Indexes
-serviceRequestSchema.index({ requestNumber: 1 });
 serviceRequestSchema.index({ customer: 1 });
 serviceRequestSchema.index({ entrepreneur: 1 });
 serviceRequestSchema.index({ service: 1 });

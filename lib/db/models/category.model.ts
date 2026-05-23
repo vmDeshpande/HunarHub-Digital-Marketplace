@@ -83,7 +83,6 @@ const categorySchema = new Schema<ICategory>(
 );
 
 // Indexes
-categorySchema.index({ slug: 1 });
 categorySchema.index({ parent: 1 });
 categorySchema.index({ type: 1, isActive: 1 });
 categorySchema.index({ isFeatured: 1 });

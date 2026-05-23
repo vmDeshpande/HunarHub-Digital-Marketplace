@@ -4,6 +4,7 @@ import connectDB from "@/lib/db/mongoose";
 import { Service, Category } from "@/lib/db/models";
 import { serviceSchema } from "@/lib/validations";
 import { z } from "zod";
+import { isValidObjectId } from "mongoose";
 
 // GET /api/v1/services - Get all services with filtering, sorting, pagination
 export async function GET(request: NextRequest) {
@@ -25,6 +26,14 @@ export async function GET(request: NextRequest) {
     const featured = searchParams.get("featured");
     const entrepreneur = searchParams.get("entrepreneur");
     const status = searchParams.get("status") || "active";
+
+    // Validate ObjectId for entrepreneur
+    if (entrepreneur && !isValidObjectId(entrepreneur)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid entrepreneur ID format" },
+        { status: 400 }
+      );
+    }
 
     // Sorting
     const sortBy = searchParams.get("sortBy") || "createdAt";

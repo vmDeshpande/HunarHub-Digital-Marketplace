@@ -40,6 +40,51 @@ export function formatPrice(
 }
 
 /**
+ * Resolve a better image URL based on product or service name.
+ */
+export function getImageByName(name: string, fallback = 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80'): string {
+  const value = name?.toLowerCase() ?? '';
+
+  if (value.includes('pottery') || value.includes('ceramics') || value.includes('vase')) {
+    return 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('shawl') || value.includes('textile') || value.includes('embroidery') || value.includes('fabric')) {
+    return 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('jewelry') || value.includes('jewel') || value.includes('gem') || value.includes('ring')) {
+    return 'https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('tea set') || value.includes('plate') || value.includes('bowl') || value.includes('metal')) {
+    return 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('wood') || value.includes('furniture') || value.includes('box') || value.includes('home decor')) {
+    return 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('cushion') || value.includes('pillow') || value.includes('decor')) {
+    return 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('leather') || value.includes('repair') || value.includes('crafting')) {
+    return 'https://images.unsplash.com/photo-1497981446739-44c0de913698?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('painting') || value.includes('art') || value.includes('decorative')) {
+    return 'https://images.unsplash.com/photo-1496317899792-9d7dbcd928a1?auto=format&fit=crop&w=900&q=80';
+  }
+
+  if (value.includes('custom') || value.includes('design') || value.includes('service')) {
+    return 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=900&q=80';
+  }
+
+  return fallback;
+}
+
+/**
  * Format number with commas
  */
 export function formatNumber(num: number): string {

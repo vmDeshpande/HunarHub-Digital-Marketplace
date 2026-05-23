@@ -183,7 +183,7 @@ export function ServiceRequestForm({
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-              placeholder="+92 300 1234567"
+              placeholder="+91 9975xxxxxx"
               required
             />
           </div>

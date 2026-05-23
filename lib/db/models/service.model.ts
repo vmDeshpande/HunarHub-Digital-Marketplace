@@ -213,7 +213,6 @@ const serviceSchema = new Schema<IService>(
 );
 
 // Indexes
-serviceSchema.index({ slug: 1 });
 serviceSchema.index({ entrepreneur: 1 });
 serviceSchema.index({ category: 1, subcategory: 1 });
 serviceSchema.index({ skills: 1 });

@@ -59,7 +59,7 @@ const recentOrders = [
     orderNumber: "HH-2024-001234",
     product: {
       title: "Hand-Embroidered Silk Cushion Cover",
-      image: "/placeholder.svg?height=60&width=60",
+      image: "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=60&h=60",
     },
     entrepreneur: {
       businessName: "Fatima's Embroidery Studio",
@@ -73,7 +73,7 @@ const recentOrders = [
     orderNumber: "HH-2024-001235",
     product: {
       title: "Traditional Indian Print Shawl",
-      image: "/placeholder.svg?height=60&width=60",
+      image: "https://images.unsplash.com/photo-1536782106527-a00a3d62ce2b?auto=format&fit=crop&w=60&h=60",
     },
     entrepreneur: {
       businessName: "Bangalore Crafts Co.",
@@ -87,7 +87,7 @@ const recentOrders = [
     orderNumber: "HH-2024-001236",
     product: {
       title: "Handcrafted Wooden Box",
-      image: "/placeholder.svg?height=60&width=60",
+      image: "https://images.unsplash.com/photo-1595643707802-412a366f2eff?auto=format&fit=crop&w=60&h=60",
     },
     entrepreneur: {
       businessName: "Pune Woodworks",
@@ -107,7 +107,7 @@ const recentRequests = [
     },
     entrepreneur: {
       businessName: "Fatima's Embroidery Studio",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=40&h=40",
     },
     status: "in_progress",
     createdAt: "2024-01-10",
@@ -120,7 +120,7 @@ const recentRequests = [
     },
     entrepreneur: {
       businessName: "Mumbai Blue Pottery",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?auto=format&fit=crop&w=40&h=40",
     },
     status: "pending",
     createdAt: "2024-01-19",
@@ -131,7 +131,7 @@ const wishlistItems = [
   {
     _id: "1",
     title: "Blue Pottery Vase Set",
-    image: "/placeholder.svg?height=80&width=80",
+    image: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?auto=format&fit=crop&w=80&h=80",
     price: 6500,
     compareAtPrice: 8000,
     entrepreneur: { businessName: "Mumbai Blue Pottery" },
@@ -139,7 +139,7 @@ const wishlistItems = [
   {
     _id: "2",
     title: "Indian Wool Shawl",
-    image: "/placeholder.svg?height=80&width=80",
+    image: "https://images.unsplash.com/photo-1536782106527-a00a3d62ce2b?auto=format&fit=crop&w=80&h=80",
     price: 12000,
     entrepreneur: { businessName: "Jaipur Crafts" },
   },

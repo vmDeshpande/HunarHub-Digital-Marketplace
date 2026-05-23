@@ -58,7 +58,7 @@ const orders = [
         product: {
           _id: "p1",
           title: "Hand-Embroidered Silk Cushion Cover",
-          images: ["/placeholder.svg?height=80&width=80"],
+          images: ["https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=80&h=80"],
         },
         quantity: 2,
         price: 4500,
@@ -68,7 +68,7 @@ const orders = [
     entrepreneur: {
       _id: "e1",
       businessName: "Fatima's Embroidery Studio",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=40&h=40",
     },
     subtotal: 9000,
     shipping: 250,
@@ -106,7 +106,7 @@ const orders = [
         product: {
           _id: "p2",
           title: "Traditional Indian Print Shawl",
-          images: ["/placeholder.svg?height=80&width=80"],
+          images: ["https://images.unsplash.com/photo-1536782106527-a00a3d62ce2b?auto=format&fit=crop&w=80&h=80"],
         },
         quantity: 1,
         price: 3200,
@@ -116,7 +116,7 @@ const orders = [
     entrepreneur: {
       _id: "e2",
       businessName: "Bangalore Crafts Co.",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1536782106527-a00a3d62ce2b?auto=format&fit=crop&w=40&h=40",
     },
     subtotal: 3200,
     shipping: 200,
@@ -152,7 +152,7 @@ const orders = [
         product: {
           _id: "p3",
           title: "Handcrafted Wooden Box",
-          images: ["/placeholder.svg?height=80&width=80"],
+          images: ["https://images.unsplash.com/photo-1595643707802-412a366f2eff?auto=format&fit=crop&w=80&h=80"],
         },
         quantity: 1,
         price: 2800,
@@ -161,7 +161,7 @@ const orders = [
     entrepreneur: {
       _id: "e3",
       businessName: "Pune Woodworks",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1595643707802-412a366f2eff?auto=format&fit=crop&w=40&h=40",
     },
     subtotal: 2800,
     shipping: 300,

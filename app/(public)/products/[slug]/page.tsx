@@ -1,167 +1,69 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { ProductGallery } from '@/components/products/product-gallery';
 import { ProductInfo } from '@/components/products/product-info';
 import { ProductTabs } from '@/components/products/product-tabs';
 import { ProductCard } from '@/components/products/product-card';
-import { Badge } from '@/components/ui/badge';
 import { ChevronRight } from 'lucide-react';
+import connectToDatabase from '@/lib/db/mongoose';
+import { Product, Review } from '@/lib/db/models';
+import mongoose from 'mongoose';
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// This would be fetched from the database
 async function getProduct(slug: string) {
-  // Mock product data
-  const product = {
-    _id: '1',
-    title: 'Traditional Blue Pottery Vase - Indian Heritage Collection',
-    slug: 'traditional-blue-pottery-vase',
-    description: `Experience the timeless beauty of authentic Indian blue pottery with this exquisite handcrafted vase. Each piece is meticulously created using traditional techniques passed down through generations of skilled artisans.
+  await connectToDatabase();
 
-This stunning vase features the signature cobalt blue and white color palette that Indian pottery is renowned for worldwide. The intricate floral and geometric patterns are hand-painted by master craftsmen, making each piece truly unique.
-
-**Features:**
-- 100% handmade by skilled Indian artisans
-- Traditional cobalt blue and white design
-- Lead-free, food-safe glaze
-- Perfect for fresh or dried flower arrangements
-- Makes an excellent gift for art lovers
-
-**Care Instructions:**
-- Hand wash recommended
-- Not microwave safe
-- Handle with care
-
-Support Indian artisans and bring a piece of cultural heritage into your home with this beautiful pottery piece.`,
-    shortDescription: 'Exquisite handcrafted blue pottery vase from India, featuring traditional patterns and techniques passed down through generations.',
-    images: [
-      '/images/placeholder-product.jpg',
-      '/images/placeholder-product.jpg',
-      '/images/placeholder-product.jpg',
-      '/images/placeholder-product.jpg',
-    ],
-    category: { _id: '1', name: 'Pottery & Ceramics', slug: 'pottery' },
-    subcategory: { _id: '2', name: 'Vases', slug: 'vases' },
-    tags: ['blue pottery', 'indian', 'handmade', 'traditional', 'home decor'],
-    price: 4500,
-    compareAtPrice: 5500,
-    currency: 'INR',
-    stock: 15,
-    sku: 'MBP-V001',
-    attributes: {
-      material: 'Ceramic Clay',
-      dimensions: '25cm height x 15cm diameter',
-      weight: '1.2 kg',
-      color: 'Blue & White',
-      handmade: true,
-      customizable: true,
-    },
-    shipping: {
-      freeShipping: false,
-      shippingCost: 300,
-      processingTime: '3-5 business days',
-    },
-    rating: {
-      average: 4.8,
-      count: 124,
-    },
-    stats: {
-      views: 1250,
-      sales: 89,
-      wishlistCount: 156,
-    },
-    entrepreneur: {
-      _id: '1',
-      businessName: 'Mumbai Pottery House',
-      slug: 'mumbai-pottery',
-      tagline: 'Traditional blue pottery since 1965',
-      logo: '/images/placeholder-avatar.jpg',
-      isVerified: true,
-      rating: { average: 4.9, count: 312 },
-      location: { city: 'Mumbai', country: 'India' },
-    },
-    reviews: [
-      {
-        _id: '1',
-        reviewer: { name: 'Sarah Khan', image: '' },
-        rating: 5,
-        title: 'Absolutely beautiful!',
-        comment: 'The vase exceeded my expectations. The craftsmanship is incredible and it looks stunning in my living room.',
-        createdAt: new Date('2024-01-15'),
-        isVerifiedPurchase: true,
-      },
-      {
-        _id: '2',
-        reviewer: { name: 'Ahmed Ali', image: '' },
-        rating: 4,
-        title: 'Great quality',
-        comment: 'Very happy with my purchase. The colors are vibrant and the design is authentic Indian pottery.',
-        createdAt: new Date('2024-01-10'),
-        isVerifiedPurchase: true,
-      },
-    ],
-    createdAt: new Date('2023-06-15'),
-  };
-
-  if (slug !== product.slug) {
-    return null;
-  }
+  const product = (await Product.findOne({ slug, status: 'active' })
+    .populate('category', 'name slug')
+    .populate({
+      path: 'entrepreneur',
+      select: 'businessName slug tagline logo isVerified rating location',
+      populate: { path: 'user', select: 'firstName lastName avatar' },
+    })
+    .lean()) as any;
 
   return product;
 }
 
-// Mock related products
-const relatedProducts = [
-  {
-    _id: '2',
-    title: 'Blue Pottery Tea Set',
-    slug: 'blue-pottery-tea-set',
-    images: ['/images/placeholder-product.jpg'],
-    price: 8500,
-    compareAtPrice: 10000,
-    rating: { average: 4.7, count: 89 },
-    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
-    stock: 8,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '3',
-    title: 'Decorative Blue Pottery Plate',
-    slug: 'decorative-blue-pottery-plate',
-    images: ['/images/placeholder-product.jpg'],
-    price: 2500,
-    rating: { average: 4.6, count: 56 },
-    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
-    stock: 20,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '4',
-    title: 'Blue Pottery Lamp Base',
-    slug: 'blue-pottery-lamp-base',
-    images: ['/images/placeholder-product.jpg'],
-    price: 6500,
-    rating: { average: 4.9, count: 34 },
-    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
-    stock: 5,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '5',
-    title: 'Mini Blue Pottery Bowl Set',
-    slug: 'mini-blue-pottery-bowl-set',
-    images: ['/images/placeholder-product.jpg'],
-    price: 3200,
-    rating: { average: 4.5, count: 78 },
-    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
-    stock: 12,
-    attributes: { handmade: true },
-  },
-];
+async function getProductReviews(productId: mongoose.Types.ObjectId) {
+  const reviews = (await Review.find({ product: productId, status: 'approved' })
+    .populate('customer', 'firstName lastName avatar')
+    .sort({ createdAt: -1 })
+    .lean()) as any[];
+
+  return reviews.map((review: any) => ({
+    ...review,
+    reviewer: {
+      name: review.customer
+        ? `${review.customer.firstName || ''} ${review.customer.lastName || ''}`.trim()
+        : 'Anonymous',
+      image: review.customer?.avatar || '',
+    },
+  }));
+}
+
+async function getRelatedProducts(product: any) {
+  const query: Record<string, unknown> = {
+    status: 'active',
+    _id: { $ne: product._id },
+  };
+
+  if (product.category?._id) {
+    query.category = product.category._id;
+  } else if (product.entrepreneur?._id) {
+    query.entrepreneur = product.entrepreneur._id;
+  }
+
+  return Product.find(query)
+    .populate('entrepreneur', 'businessName slug')
+    .sort({ createdAt: -1 })
+    .limit(4)
+    .lean();
+}
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -173,11 +75,11 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   return {
     title: product.title,
-    description: product.shortDescription,
+    description: product.shortDescription || product.description?.slice(0, 160) || '',
     openGraph: {
       title: product.title,
-      description: product.shortDescription,
-      images: product.images,
+      description: product.shortDescription || product.description?.slice(0, 160) || '',
+      images: Array.isArray(product.images) ? product.images : [product.images || ''],
     },
   };
 }
@@ -190,9 +92,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  const reviews = await getProductReviews(product._id);
+  const relatedProducts = await getRelatedProducts(product);
+
   return (
     <div className="container py-8">
-      {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
         <Link href="/" className="hover:text-primary transition-colors">
           Home
@@ -202,33 +106,34 @@ export default async function ProductPage({ params }: ProductPageProps) {
           Products
         </Link>
         <ChevronRight className="h-4 w-4" />
-        <Link
-          href={`/categories/${product.category.slug}`}
-          className="hover:text-primary transition-colors"
-        >
-          {product.category.name}
-        </Link>
+        {product.category?.slug ? (
+          <Link
+            href={`/categories/${product.category.slug}`}
+            className="hover:text-primary transition-colors"
+          >
+            {product.category.name}
+          </Link>
+        ) : (
+          <span className="text-muted-foreground">Product</span>
+        )}
         <ChevronRight className="h-4 w-4" />
         <span className="text-foreground truncate max-w-[200px]">
           {product.title}
         </span>
       </nav>
 
-      {/* Product Main Section */}
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
-        <ProductGallery images={product.images} title={product.title} />
-        <ProductInfo product={product} />
+        <ProductGallery images={product.images || []} title={product.title} />
+        <ProductInfo product={{ ...product, reviews }} />
       </div>
 
-      {/* Product Details Tabs */}
-      <ProductTabs product={product} />
+      <ProductTabs product={{ ...product, reviews }} />
 
-      {/* Related Products */}
       <section className="mt-16">
         <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {relatedProducts.map((relatedProduct) => (
-            <ProductCard key={relatedProduct._id} product={relatedProduct} />
+            <ProductCard key={relatedProduct._id.toString()} product={relatedProduct as any} />
           ))}
         </div>
       </section>

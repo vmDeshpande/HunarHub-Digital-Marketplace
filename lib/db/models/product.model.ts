@@ -204,7 +204,6 @@ const productSchema = new Schema<IProduct>(
 );
 
 // Indexes
-productSchema.index({ slug: 1 });
 productSchema.index({ entrepreneur: 1 });
 productSchema.index({ category: 1, subcategory: 1 });
 productSchema.index({ status: 1, isActive: 1 });

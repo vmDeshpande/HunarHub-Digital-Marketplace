@@ -161,8 +161,8 @@ export function CartSidebar() {
               {/* Actions */}
               <div className="space-y-2">
                 <Button className="w-full" size="lg" asChild>
-                  <Link href="/checkout" onClick={closeCart}>
-                    Proceed to Checkout
+                  <Link href="/cart" onClick={closeCart}>
+                    View Cart
                   </Link>
                 </Button>
                 <Button

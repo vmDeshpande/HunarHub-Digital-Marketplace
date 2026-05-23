@@ -147,8 +147,6 @@ const entrepreneurProfileSchema = new Schema<IEntrepreneurProfile>(
 );
 
 // Indexes
-entrepreneurProfileSchema.index({ slug: 1 });
-entrepreneurProfileSchema.index({ user: 1 });
 entrepreneurProfileSchema.index({ status: 1 });
 entrepreneurProfileSchema.index({ 'location.city': 1 });
 entrepreneurProfileSchema.index({ categories: 1 });

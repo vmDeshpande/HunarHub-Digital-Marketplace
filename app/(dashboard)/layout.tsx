@@ -186,7 +186,7 @@ export default function DashboardLayout({
   const user = session?.user || {
     name: "Demo User",
     email: "demo@hunarhub.pk",
-    image: "/placeholder.svg?height=40&width=40",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=40&h=40",
   };
 
   return (

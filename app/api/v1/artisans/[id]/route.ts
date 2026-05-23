@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isValidObjectId } from 'mongoose';
 import dbConnect from '@/lib/db/mongoose';
 import { EntrepreneurProfile, Product, Service, Review } from '@/lib/db/models';
 
@@ -10,6 +11,14 @@ export async function GET(
   try {
     await dbConnect();
     const { id } = await params;
+
+    // Validate ObjectId format
+    if (!isValidObjectId(id)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid artisan ID format' },
+        { status: 400 }
+      );
+    }
 
     const artisan = await EntrepreneurProfile.findById(id)
       .populate('user', 'firstName lastName avatar email createdAt')
@@ -66,6 +75,14 @@ export async function GET(
       },
     });
   } catch (error) {
+    // Handle MongoDB CastError for invalid ObjectIds
+    if (error instanceof Error && error.name === 'CastError') {
+      return NextResponse.json(
+        { success: false, error: 'Invalid ID format' },
+        { status: 400 }
+      );
+    }
+
     console.error('Error fetching artisan:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch artisan' },

@@ -88,7 +88,7 @@ const recentOrders = [
     orderNumber: "HH-2024-001234",
     customer: {
       name: "Ahmed Khan",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=40&h=40",
     },
     product: "Hand-Embroidered Silk Cushion Cover",
     total: 9250,
@@ -100,7 +100,7 @@ const recentOrders = [
     orderNumber: "HH-2024-001235",
     customer: {
       name: "Sara Ahmed",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=40&h=40",
     },
     product: "Zardozi Embroidered Clutch Bag",
     total: 8500,
@@ -112,7 +112,7 @@ const recentOrders = [
     orderNumber: "HH-2024-001236",
     customer: {
       name: "Ayesha Khan",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=40&h=40",
     },
     product: "Custom Bridal Embroidery",
     total: 45000,
@@ -127,7 +127,7 @@ const pendingRequests = [
     title: "Wedding Dress Embroidery",
     customer: {
       name: "Fatima Ali",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=40&h=40",
     },
     budget: 50000,
     deadline: "2024-02-15",
@@ -138,7 +138,7 @@ const pendingRequests = [
     title: "Corporate Gift Set",
     customer: {
       name: "Imran Malik",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=40&h=40",
     },
     budget: 25000,
     deadline: "2024-02-01",
@@ -150,21 +150,21 @@ const topProducts = [
   {
     _id: "1",
     title: "Hand-Embroidered Silk Cushion Cover",
-    image: "/placeholder.svg?height=60&width=60",
+    image: "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=60&h=60",
     sales: 45,
     revenue: 202500,
   },
   {
     _id: "2",
     title: "Zardozi Embroidered Clutch Bag",
-    image: "/placeholder.svg?height=60&width=60",
+    image: "https://images.unsplash.com/photo-1576193537338-14b3f281503f?auto=format&fit=crop&w=60&h=60",
     sales: 32,
     revenue: 272000,
   },
   {
     _id: "3",
     title: "Traditional Phulkari Dupatta",
-    image: "/placeholder.svg?height=60&width=60",
+    image: "https://images.unsplash.com/photo-1536782106527-a00a3d62ce2b?auto=format&fit=crop&w=60&h=60",
     sales: 28,
     revenue: 140000,
   },

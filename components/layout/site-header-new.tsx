@@ -105,7 +105,7 @@ export function SiteHeader() {
               </Link>
 
               {/* Cart */}
-              <Link href="/checkout">
+              <Link href="/cart">
                 <Button variant="ghost" size="icon" className="relative">
                   <ShoppingCart className="h-5 w-5" />
                   {cartItemCount > 0 && (

@@ -4,6 +4,7 @@ import connectDB from "@/lib/db/mongoose";
 import { Review, Product, Service, Order, EntrepreneurProfile, Notification } from "@/lib/db/models";
 import { reviewSchema } from "@/lib/validations";
 import { z } from "zod";
+import { isValidObjectId } from "mongoose";
 
 // GET /api/v1/reviews - Get reviews with filtering
 export async function GET(request: NextRequest) {
@@ -23,6 +24,32 @@ export async function GET(request: NextRequest) {
     const entrepreneurId = searchParams.get("entrepreneur");
     const customerId = searchParams.get("customer");
     const status = searchParams.get("status") || "approved";
+
+    // Validate ObjectIds
+    if (productId && !isValidObjectId(productId)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid product ID format" },
+        { status: 400 }
+      );
+    }
+    if (serviceId && !isValidObjectId(serviceId)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid service ID format" },
+        { status: 400 }
+      );
+    }
+    if (entrepreneurId && !isValidObjectId(entrepreneurId)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid entrepreneur ID format" },
+        { status: 400 }
+      );
+    }
+    if (customerId && !isValidObjectId(customerId)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid customer ID format" },
+        { status: 400 }
+      );
+    }
 
     // Build query
     const query: Record<string, unknown> = { status };
@@ -252,6 +279,14 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { success: false, error: "Validation failed", details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    // Handle MongoDB CastError for invalid ObjectIds
+    if (error instanceof Error && error.name === 'CastError') {
+      return NextResponse.json(
+        { success: false, error: "Invalid ID format" },
         { status: 400 }
       );
     }

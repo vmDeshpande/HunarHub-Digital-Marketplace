@@ -17,6 +17,8 @@ import {
   Home,
   UtensilsCrossed,
 } from 'lucide-react';
+import connectDB from '@/lib/db/mongoose';
+import { Product } from '@/lib/db/models';
 
 // Featured categories
 const categories = [
@@ -52,55 +54,22 @@ const features = [
   },
 ];
 
-// Mock featured products
-const featuredProducts = [
-  {
-    _id: '1',
-    title: 'Traditional Blue Pottery Vase',
-    slug: 'traditional-blue-pottery-vase',
-    images: ['/images/placeholder-product.jpg'],
-    price: 4500,
-    compareAtPrice: 5500,
-    rating: { average: 4.8, count: 124 },
-    entrepreneur: { businessName: 'Mumbai Pottery House', slug: 'mumbai-pottery' },
-    stock: 15,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '2',
-    title: 'Handwoven Indian Ajrak Shawl',
-    slug: 'handwoven-indian-ajrak-shawl',
-    images: ['/images/placeholder-product.jpg'],
-    price: 3200,
-    rating: { average: 4.9, count: 89 },
-    entrepreneur: { businessName: 'Bangalore Crafts', slug: 'bangalore-crafts' },
-    stock: 8,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '3',
-    title: 'Copper Engraved Tea Set',
-    slug: 'copper-engraved-tea-set',
-    images: ['/images/placeholder-product.jpg'],
-    price: 12500,
-    compareAtPrice: 15000,
-    rating: { average: 4.7, count: 56 },
-    entrepreneur: { businessName: 'Hyderabad Metal Works', slug: 'hyderabad-metal' },
-    stock: 5,
-    attributes: { handmade: true },
-  },
-  {
-    _id: '4',
-    title: 'Art Wooden Jewelry Box',
-    slug: 'art-wooden-jewelry-box',
-    images: ['/images/placeholder-product.jpg'],
-    price: 2800,
-    rating: { average: 4.6, count: 203 },
-    entrepreneur: { businessName: 'Delhi Art Studio', slug: 'delhi-art' },
-    stock: 20,
-    attributes: { handmade: true },
-  },
-];
+async function getFeaturedProducts() {
+  await connectDB();
+
+  const products = (await Product.find({ featured: true, status: 'active' })
+    .populate('category', 'name slug')
+    .populate({
+      path: 'entrepreneur',
+      select: 'businessName slug',
+      populate: { path: 'user', select: 'firstName lastName avatar' },
+    })
+    .sort({ createdAt: -1 })
+    .limit(4)
+    .lean()) as any[];
+
+  return products;
+}
 
 // Mock featured artisans
 const featuredArtisans = [
@@ -139,7 +108,9 @@ const featuredArtisans = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const featuredProducts = await getFeaturedProducts();
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -193,7 +164,7 @@ export default function HomePage() {
                 <div className="space-y-4">
                   <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-lg">
                     <Image
-                      src="/images/hero-pottery.jpg"
+                      src="https://images.unsplash.com/photo-1517717116462-5b0f92d8ce44?auto=format&fit=crop&w=1200&q=80"
                       alt="Traditional pottery"
                       fill
                       className="object-cover"
@@ -202,7 +173,7 @@ export default function HomePage() {
                   </div>
                   <div className="aspect-square relative rounded-2xl overflow-hidden shadow-lg">
                     <Image
-                      src="/images/hero-textiles.jpg"
+                      src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80"
                       alt="Handwoven textiles"
                       fill
                       className="object-cover"
@@ -212,15 +183,15 @@ export default function HomePage() {
                 <div className="space-y-4 pt-8">
                   <div className="aspect-square relative rounded-2xl overflow-hidden shadow-lg">
                     <Image
-                      src="/images/hero-jewelry.jpg"
+                      src="https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1200&q=80"
                       alt="Traditional jewelry"
                       fill
                       className="object-cover"
                     />
                   </div>
-                  <div className="aspect-[4/5] relative rounded-2xl overflow-hidden shadow-lg">
+                  <div className="aspect-square relative rounded-2xl overflow-hidden shadow-lg">
                     <Image
-                      src="/images/hero-crafts.jpg"
+                      src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"
                       alt="Handicrafts"
                       fill
                       className="object-cover"

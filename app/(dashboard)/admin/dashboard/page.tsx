@@ -92,7 +92,7 @@ const pendingApprovals = [
     name: "Ali Crafts",
     user: {
       name: "Ali Hassan",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=40&h=40",
     },
     requestedAt: "2024-01-20",
     status: "pending",
@@ -103,7 +103,7 @@ const pendingApprovals = [
     name: "Handwoven Carpet",
     user: {
       name: "Fatima's Textiles",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=40&h=40",
     },
     requestedAt: "2024-01-19",
     status: "pending",
@@ -114,7 +114,7 @@ const pendingApprovals = [
     name: "Custom Pottery Workshop",
     user: {
       name: "Mumbai Blue Pottery",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?auto=format&fit=crop&w=40&h=40",
     },
     requestedAt: "2024-01-18",
     status: "pending",
@@ -163,7 +163,7 @@ const topEntrepreneurs = [
   {
     _id: "1",
     businessName: "Fatima's Embroidery Studio",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=40&h=40",
     revenue: 285000,
     orders: 156,
     rating: 4.9,
@@ -171,7 +171,7 @@ const topEntrepreneurs = [
   {
     _id: "2",
     businessName: "Mumbai Blue Pottery",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: "https://images.unsplash.com/photo-1578500494198-246f612d03b3?auto=format&fit=crop&w=40&h=40",
     revenue: 245000,
     orders: 128,
     rating: 4.8,
@@ -179,7 +179,7 @@ const topEntrepreneurs = [
   {
     _id: "3",
     businessName: "Kashmir Crafts",
-    avatar: "/placeholder.svg?height=40&width=40",
+    avatar: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=40&h=40",
     revenue: 198000,
     orders: 95,
     rating: 4.9,

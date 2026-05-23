@@ -59,7 +59,6 @@ const skillSchema = new Schema<ISkill>(
 );
 
 // Indexes
-skillSchema.index({ slug: 1 });
 skillSchema.index({ category: 1 });
 skillSchema.index({ isActive: 1 });
 skillSchema.index({ isFeatured: 1 });

@@ -131,9 +131,7 @@ userSchema.methods.comparePassword = async function (
 };
 
 // Index for efficient queries
-userSchema.index({ email: 1 });
 userSchema.index({ role: 1, status: 1 });
-userSchema.index({ googleId: 1 });
 
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
 

@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+const isValidCartProductId = (id: unknown): id is string =>
+  typeof id === 'string' && /^[0-9a-fA-F]{24}$/.test(id);
+
 export interface CartItem {
   productId: string;
   title: string;
@@ -43,16 +46,22 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
 
       addItem: (item) => {
+        const itemToAdd = {
+          ...item,
+          productId: String(item.productId),
+          quantity: item.quantity || 1,
+        };
+
         set((state) => {
           const existingIndex = state.items.findIndex(
-            (i) => i.productId === item.productId && i.variant === item.variant
+            (i) => i.productId === itemToAdd.productId && i.variant === itemToAdd.variant
           );
 
           if (existingIndex > -1) {
             // Update quantity of existing item
             const newItems = [...state.items];
             const newQuantity = Math.min(
-              newItems[existingIndex].quantity + (item.quantity || 1),
+              newItems[existingIndex].quantity + itemToAdd.quantity,
               newItems[existingIndex].maxQuantity
             );
             newItems[existingIndex] = {
@@ -66,7 +75,7 @@ export const useCartStore = create<CartState>()(
           return {
             items: [
               ...state.items,
-              { ...item, quantity: item.quantity || 1 },
+              itemToAdd,
             ],
           };
         });

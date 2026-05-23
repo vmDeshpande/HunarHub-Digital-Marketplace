@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { formatPrice } from '@/lib/utils/helpers';
+import { formatPrice, getImageByName } from '@/lib/utils/helpers';
 
 interface ProductCardProps {
   product: {
@@ -43,6 +43,10 @@ export function ProductCard({ product, showQuickAdd = true }: ProductCardProps) 
       ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
       : 0;
 
+  const imageSrc = imageError
+    ? getImageByName(product.title)
+    : product.images[0] || getImageByName(product.title);
+
   const handleWishlistToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -61,7 +65,7 @@ export function ProductCard({ product, showQuickAdd = true }: ProductCardProps) 
       <Link href={`/products/${product.slug}`}>
         <div className="relative aspect-square overflow-hidden bg-muted">
           <Image
-            src={imageError ? '/images/placeholder-product.jpg' : product.images[0] || '/images/placeholder-product.jpg'}
+            src={imageSrc}
             alt={product.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"

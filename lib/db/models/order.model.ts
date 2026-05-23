@@ -232,7 +232,6 @@ orderSchema.pre('save', function () {
 });
 
 // Indexes
-orderSchema.index({ orderNumber: 1 });
 orderSchema.index({ customer: 1 });
 orderSchema.index({ entrepreneur: 1 });
 orderSchema.index({ status: 1 });

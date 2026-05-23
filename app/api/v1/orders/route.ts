@@ -4,6 +4,7 @@ import connectDB from "@/lib/db/mongoose";
 import { Order, Product, User, Notification } from "@/lib/db/models";
 import { orderSchema } from "@/lib/validations";
 import { z } from "zod";
+import { isValidObjectId } from "mongoose";
 import { generateOrderNumber } from "@/lib/utils/helpers";
 
 // GET /api/v1/orders - Get orders for current user
@@ -112,6 +113,20 @@ export async function POST(request: NextRequest) {
     let subtotal = 0;
     const orderItems = [];
 
+    const findProductByIdentifier = async (identifier: string) => {
+      if (isValidObjectId(identifier)) {
+        const product = await Product.findById(identifier).populate("entrepreneur");
+        if (product) return product;
+      }
+
+      return await Product.findOne({
+        $or: [
+          { slug: identifier },
+          { sku: identifier },
+        ],
+      }).populate("entrepreneur");
+    };
+
     for (const item of validatedData.items) {
       const productId = item.product || item.productId;
 
@@ -122,9 +137,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const product = await Product.findById(productId).populate(
-        "entrepreneur"
-      );
+      const product = await findProductByIdentifier(productId);
 
       if (!product) {
         return NextResponse.json(
@@ -163,9 +176,9 @@ export async function POST(request: NextRequest) {
 
     // Get entrepreneur from first product (assuming single seller order for simplicity)
     const firstProductId = validatedData.items[0].product || validatedData.items[0].productId;
-    const firstProduct = await Product.findById(
-      firstProductId
-    ).populate("entrepreneur");
+    const firstProduct = isValidObjectId(firstProductId)
+      ? await Product.findById(firstProductId).populate("entrepreneur")
+      : await Product.findOne({ slug: firstProductId }).populate("entrepreneur");
 
     // Calculate shipping (simplified)
     const shipping = subtotal > 5000 ? 0 : 250;
@@ -233,6 +246,14 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { success: false, error: "Validation failed", details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    // Handle MongoDB CastError for invalid ObjectIds
+    if (error instanceof Error && error.name === 'CastError') {
+      return NextResponse.json(
+        { success: false, error: "Invalid product ID format" },
         { status: 400 }
       );
     }

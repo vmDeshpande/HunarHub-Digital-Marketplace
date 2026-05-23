@@ -73,9 +73,9 @@ Each piece is handcrafted with attention to detail, using premium threads and ma
     unit: "days",
   },
   images: [
-    "/placeholder.svg?height=600&width=600",
-    "/placeholder.svg?height=600&width=600",
-    "/placeholder.svg?height=600&width=600",
+    "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=600&h=600",
+    "https://images.unsplash.com/photo-1576193537338-14b3f281503f?auto=format&fit=crop&w=600&h=600",
+    "https://images.unsplash.com/photo-1578500494198-246f612d03b3?auto=format&fit=crop&w=600&h=600",
   ],
   entrepreneur: {
     _id: "1",
@@ -83,7 +83,7 @@ Each piece is handcrafted with attention to detail, using premium threads and ma
       _id: "1",
       firstName: "Fatima",
       lastName: "Hassan",
-      avatar: "/placeholder.svg?height=100&width=100",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&h=100",
     },
     businessName: "Fatima's Embroidery Studio",
     bio: "Master embroiderer with 15+ years of experience in traditional Indian crafts.",
@@ -112,20 +112,20 @@ const mockReviews = [
     customer: {
       firstName: "Ayesha",
       lastName: "Khan",
-      avatar: "/placeholder.svg?height=50&width=50",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=50&h=50",
     },
     rating: 5,
     comment:
       "Absolutely stunning embroidery work! Fatima understood exactly what I wanted for my wedding outfit. The zardozi work was impeccable.",
     createdAt: "2024-01-15",
-    images: ["/placeholder.svg?height=100&width=100"],
+    images: ["https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?auto=format&fit=crop&w=100&h=100"],
   },
   {
     _id: "2",
     customer: {
       firstName: "Sara",
       lastName: "Ahmed",
-      avatar: "/placeholder.svg?height=50&width=50",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=50&h=50",
     },
     rating: 5,
     comment:
@@ -137,7 +137,7 @@ const mockReviews = [
     customer: {
       firstName: "Zainab",
       lastName: "Ali",
-      avatar: "/placeholder.svg?height=50&width=50",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=50&h=50",
     },
     rating: 4,
     comment:

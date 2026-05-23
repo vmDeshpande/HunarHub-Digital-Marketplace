@@ -66,7 +66,7 @@ const initialUser = {
   lastName: "Khan",
   email: "ahmed.khan@example.com",
   phone: "+91 90000 12345",
-  avatar: "/placeholder.svg?height=150&width=150",
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150",
   addresses: [
     {
       _id: "1",

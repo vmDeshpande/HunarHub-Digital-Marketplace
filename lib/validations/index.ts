@@ -1,6 +1,12 @@
 import { z } from 'zod';
+import { isValidObjectId } from 'mongoose';
 
 // Common validations
+export const objectIdSchema = z.string().refine(
+  (id) => isValidObjectId(id),
+  { message: 'Invalid MongoDB ObjectId' }
+);
+
 export const emailSchema = z.string().email('Invalid email address');
 export const passwordSchema = z
   .string()
@@ -11,7 +17,7 @@ export const passwordSchema = z
 
 export const phoneSchema = z
   .string()
-  .regex(/^(\+92|0)?[0-9]{10}$/, 'Invalid Indian phone number')
+  .regex(/^(\+91|0)?[0-9]{10}$/, 'Invalid Indian phone number')
   .optional();
 
 // Auth validations
@@ -162,7 +168,10 @@ export const createOrderSchema = z.object({
     selectedVariant: z.string().optional(),
     variant: z.string().optional(),
     customization: z.string().max(500).optional(),
-  })).min(1),
+  }).refine(
+    (item) => item.product || item.productId,
+    { message: 'Either product or productId is required' }
+  )).min(1),
   shippingAddress: z.object({
     name: z.string().min(2).optional(),
     fullName: z.string().min(2).optional(),
@@ -183,7 +192,7 @@ export const orderSchema = createOrderSchema;
 
 // Service request validations
 export const serviceRequestSchema = z.object({
-  serviceId: z.string(),
+  serviceId: objectIdSchema,
   selectedPackage: z.string().optional(),
   title: z.string().min(5).max(200),
   description: z.string().min(20).max(2000),
@@ -205,14 +214,17 @@ export const serviceRequestSchema = z.object({
 
 // Review validations
 export const reviewSchema = z.object({
-  product: z.string().optional(),
-  service: z.string().optional(),
-  serviceRequest: z.string().optional(),
-  order: z.string().optional(),
+  product: objectIdSchema.optional(),
+  service: objectIdSchema.optional(),
+  serviceRequest: objectIdSchema.optional(),
+  order: objectIdSchema.optional(),
   rating: z.number().int().min(1).max(5),
   title: z.string().max(100).optional(),
   comment: z.string().min(10).max(2000),
-});
+}).refine(
+  (review) => review.product || review.service || review.serviceRequest || review.order,
+  { message: 'At least one of product, service, serviceRequest, or order is required' }
+);
 
 // Search/filter validations
 export const searchQuerySchema = z.object({

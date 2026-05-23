@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/auth';
 import dbConnect from '@/lib/db/mongoose';
 import { ServiceRequest, Service, Notification } from '@/lib/db/models';
+import { serviceRequestSchema } from '@/lib/validations';
 import { nanoid } from 'nanoid';
+import { z } from 'zod';
 
 // GET /api/v1/service-requests - Get service requests
 export async function GET(request: NextRequest) {
@@ -86,10 +88,11 @@ export async function POST(request: NextRequest) {
     await dbConnect();
     const body = await request.json();
 
-    const { service: serviceId, entrepreneur, requirements, contactInfo, notes } = body;
+    // Validate input
+    const validatedData = serviceRequestSchema.parse(body);
 
     // Validate service exists
-    const service = await Service.findById(serviceId);
+    const service = await Service.findById(validatedData.serviceId);
     if (!service) {
       return NextResponse.json(
         { success: false, error: 'Service not found' },
@@ -100,41 +103,33 @@ export async function POST(request: NextRequest) {
     // Create service request
     const serviceRequest = await ServiceRequest.create({
       requestNumber: `SR-${nanoid(8).toUpperCase()}`,
-      service: serviceId,
+      service: validatedData.serviceId,
       customer: session.user.id,
-      entrepreneur,
-      title: body.title || service.title,
-      description: requirements.description || body.description || notes || service.description,
-      requirements: requirements.details || requirements.description || body.requirements || '',
-      budget: requirements.budget,
-      timeline: {
-        deadline: requirements.deadline,
-      },
+      entrepreneur: service.entrepreneur,
+      title: validatedData.title,
+      description: validatedData.description,
+      requirements: validatedData.requirements,
+      budget: validatedData.budget,
+      timeline: validatedData.timeline,
+      location: validatedData.location,
       status: 'pending',
-      messages: contactInfo?.phone
-        ? [{
-            sender: session.user.id,
-            message: `Contact phone: ${contactInfo.phone}`,
-            sentAt: new Date(),
-            isRead: false,
-          }]
-        : [],
+      messages: [],
     });
 
     // Update service stats
-    await Service.findByIdAndUpdate(serviceId, {
+    await Service.findByIdAndUpdate(validatedData.serviceId, {
       $inc: { 'stats.totalRequests': 1 },
     });
 
     // Create notification for entrepreneur
     await Notification.create({
-      user: entrepreneur,
+      user: service.entrepreneur,
       type: 'service_request',
       title: 'New Service Request',
       message: `You have a new request for "${service.title}"`,
       data: {
         serviceRequestId: serviceRequest._id,
-        serviceId,
+        serviceId: validatedData.serviceId,
       },
     });
 
@@ -143,6 +138,21 @@ export async function POST(request: NextRequest) {
       data: { serviceRequest },
     }, { status: 201 });
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { success: false, error: 'Validation failed', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    // Handle MongoDB CastError for invalid ObjectIds
+    if (error instanceof Error && error.name === 'CastError') {
+      return NextResponse.json(
+        { success: false, error: 'Invalid ID format' },
+        { status: 400 }
+      );
+    }
+
     console.error('Error creating service request:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create service request' },

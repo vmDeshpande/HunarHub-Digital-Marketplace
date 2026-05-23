@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -28,162 +28,109 @@ import { ProductCard } from "@/components/products/product-card";
 import { ServiceCard } from "@/components/services/service-card";
 import { formatDate, getInitials } from "@/lib/utils/helpers";
 
-// Mock data
-const mockArtisan = {
-  _id: "1",
-  user: {
-    _id: "1",
-    firstName: "Fatima",
-    lastName: "Hassan",
-    avatar: "/placeholder.svg?height=150&width=150",
-  },
-  businessName: "Fatima's Embroidery Studio",
-  bio: "Master embroiderer with over 15 years of experience in traditional Indian crafts. I specialize in zardozi, resham work, and contemporary fusion designs. My passion is preserving and promoting our rich cultural heritage through intricate handwork.",
-  tagline: "Preserving Tradition, Creating Art",
-  location: {
-    city: "Delhi",
-    province: "Delhi",
-    country: "India",
-  },
-  skills: [
-    { _id: "1", name: "Zardozi" },
-    { _id: "2", name: "Hand Embroidery" },
-    { _id: "3", name: "Resham Work" },
-    { _id: "4", name: "Gota Work" },
-    { _id: "5", name: "Mirror Work" },
-  ],
-  categories: [
-    { _id: "1", name: "Embroidery" },
-    { _id: "2", name: "Bridal Wear" },
-  ],
-  rating: 4.9,
-  reviewCount: 127,
-  completedOrders: 342,
-  responseTime: "2 hours",
-  responseRate: 98,
-  memberSince: "2020-03-15",
-  verified: true,
-  featured: true,
-  coverImage: "/placeholder.svg?height=400&width=1200",
-  socialLinks: {
-    website: "https://fatimaembroidery.pk",
-    instagram: "fatima_embroidery",
-    facebook: "fatimaembroidery",
-  },
-  achievements: [
-    { title: "Top Rated Seller", icon: "star" },
-    { title: "100+ Orders", icon: "briefcase" },
-    { title: "Fast Responder", icon: "clock" },
-  ],
+const API_BASE = '/api/v1/artisans';
+
+const initialArtisan = {
+  _id: '',
+  user: { firstName: '', lastName: '', avatar: '' },
+  businessName: '',
+  bio: '',
+  tagline: '',
+  location: { city: '', province: '', country: '' },
+  skills: [],
+  categories: [],
+  rating: 0,
+  reviewCount: 0,
+  completedOrders: 0,
+  responseTime: '',
+  responseRate: 0,
+  memberSince: '',
+  verified: false,
+  featured: false,
+  coverImage: '',
+  socialLinks: { website: '', instagram: '', facebook: '' },
+  achievements: [],
 };
-
-const mockProducts = [
-  {
-    _id: "1",
-    title: "Hand-Embroidered Silk Cushion Cover",
-    slug: "hand-embroidered-silk-cushion-cover",
-    price: 4500,
-    compareAtPrice: 5500,
-    images: ["/placeholder.svg?height=400&width=400"],
-    rating: 4.8,
-    reviewCount: 23,
-    category: { name: "Home Decor" },
-    entrepreneur: mockArtisan,
-    inStock: true,
-    featured: true,
-  },
-  {
-    _id: "2",
-    title: "Zardozi Embroidered Clutch Bag",
-    slug: "zardozi-embroidered-clutch-bag",
-    price: 8500,
-    images: ["/placeholder.svg?height=400&width=400"],
-    rating: 5.0,
-    reviewCount: 15,
-    category: { name: "Accessories" },
-    entrepreneur: mockArtisan,
-    inStock: true,
-  },
-];
-
-const mockServices = [
-  {
-    _id: "1",
-    title: "Custom Embroidery Design & Stitching",
-    slug: "custom-embroidery-design-stitching",
-    description:
-      "Professional embroidery services for traditional Indian designs.",
-    pricing: { type: "hourly", basePrice: 2500 },
-    deliveryTime: { min: 7, max: 21, unit: "days" },
-    images: ["/placeholder.svg?height=400&width=400"],
-    rating: 4.9,
-    reviewCount: 89,
-    category: { name: "Embroidery" },
-    entrepreneur: mockArtisan,
-    featured: true,
-  },
-];
-
-const mockReviews = [
-  {
-    _id: "1",
-    customer: {
-      firstName: "Ayesha",
-      lastName: "Khan",
-      avatar: "/placeholder.svg?height=50&width=50",
-    },
-    rating: 5,
-    comment:
-      "Absolutely stunning embroidery work! Fatima understood exactly what I wanted for my wedding outfit.",
-    createdAt: "2024-01-15",
-    type: "service",
-  },
-  {
-    _id: "2",
-    customer: {
-      firstName: "Sara",
-      lastName: "Ahmed",
-      avatar: "/placeholder.svg?height=50&width=50",
-    },
-    rating: 5,
-    comment:
-      "Beautiful cushion covers! The quality is exceptional and the delivery was fast.",
-    createdAt: "2024-01-10",
-    type: "product",
-  },
-];
 
 export default function ArtisanProfilePage() {
   const params = useParams();
-  const [activeTab, setActiveTab] = useState("products");
+  const [activeTab, setActiveTab] = useState('products');
+  const [artisan, setArtisan] = useState<any>(initialArtisan);
+  const [products, setProducts] = useState<any[]>([]);
+  const [services, setServices] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const artisan = mockArtisan;
-  const products = mockProducts.map((product) => ({
-    ...product,
-    rating: { average: product.rating, count: product.reviewCount },
-    entrepreneur: {
-      businessName: artisan.businessName,
-      slug: "fatima-embroidery-studio",
-    },
-    stock: product.inStock ? 12 : 0,
-    attributes: { handmade: true },
-  }));
-  const services = mockServices.map((service) => ({
-    ...service,
-    shortDescription: service.description,
-    price: service.pricing.basePrice,
-    pricingType: service.pricing.type,
-    rating: { average: service.rating, count: service.reviewCount },
-    entrepreneur: {
-      businessName: artisan.businessName,
-      slug: "fatima-embroidery-studio",
-      logo: artisan.user.avatar,
-      location: { city: artisan.location.city },
-      isVerified: artisan.verified,
-    },
-    location: { onsite: true, remote: true },
-  }));
-  const reviews = mockReviews;
+  useEffect(() => {
+    const fetchArtisanData = async () => {
+      if (!params?.id) return;
+      setLoading(true);
+
+      try {
+        const response = await fetch(`${API_BASE}/${params.id}`);
+        const json = await response.json();
+
+        if (response.ok && json.success) {
+          setArtisan(json.data.artisan);
+          setProducts(
+            json.data.products.map((product: any) => ({
+              ...product,
+              rating: {
+                average: product.rating?.average ?? 0,
+                count: product.reviewCount ?? 0,
+              },
+              entrepreneur: {
+                businessName: json.data.artisan.businessName,
+                slug: json.data.artisan.slug,
+              },
+            }))
+          );
+          setServices(
+            json.data.services.map((service: any) => ({
+              ...service,
+              shortDescription: service.description,
+              price: service.pricing?.basePrice,
+              pricingType: service.pricing?.type,
+              rating: {
+                average: service.rating?.average ?? 0,
+                count: service.reviewCount ?? 0,
+              },
+              entrepreneur: {
+                businessName: json.data.artisan.businessName,
+                slug: json.data.artisan.slug,
+                logo: json.data.artisan.user.avatar,
+                location: { city: json.data.artisan.location.city },
+                isVerified: json.data.artisan.verified,
+              },
+            }))
+          );
+          setReviews(json.data.reviews || []);
+        } else {
+          setArtisan(initialArtisan);
+          setProducts([]);
+          setServices([]);
+          setReviews([]);
+        }
+      } catch (error) {
+        setArtisan(initialArtisan);
+        setProducts([]);
+        setServices([]);
+        setReviews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArtisanData();
+  }, [params?.id]);
+
+  if (loading) {
+    return (
+      <div className="container py-20">
+        <div className="text-center text-lg text-muted-foreground">Loading artisan profile...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -343,7 +290,7 @@ export default function ArtisanProfilePage() {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {artisan.skills.map((skill) => (
+                  {artisan.skills.map((skill: any) => (
                     <Badge key={skill._id} variant="secondary">
                       {skill.name}
                     </Badge>
@@ -359,7 +306,7 @@ export default function ArtisanProfilePage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {artisan.achievements.map((achievement, index) => (
+                  {artisan.achievements.map((achievement: any, index: number) => (
                     <div
                       key={index}
                       className="flex items-center gap-3 p-2 rounded-lg bg-muted/50"

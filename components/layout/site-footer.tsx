@@ -16,8 +16,16 @@ const footerLinks = {
     { name: 'Seller Dashboard', href: '/entrepreneur/dashboard' },
   ],
   support: [
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'Help Center', href: '/help' },
+    { name: 'FAQ', href: '/faq' },
+    { name: 'Shipping Info', href: '/shipping' },
   ],
   company: [
+    { name: 'About Us', href: '/about' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Careers', href: '/careers' },
+    { name: 'Press', href: '/press' },
   ],
 };
 
@@ -65,7 +73,7 @@ export function SiteFooter() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
-                <span>+92 300 1234567</span>
+                <span>+91 9975xxxxxx</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />

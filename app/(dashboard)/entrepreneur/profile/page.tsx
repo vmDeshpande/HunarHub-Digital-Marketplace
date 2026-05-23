@@ -274,7 +274,7 @@ export default function EntrepreneurProfilePage() {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
-                    placeholder="+92 300 1234567"
+                    placeholder="+91 9975xxxxxx"
                   />
                 </div>
               </CardContent>
@@ -409,7 +409,7 @@ export default function EntrepreneurProfilePage() {
                       type="tel"
                       value={formData.contactPhone}
                       onChange={(e) => handleInputChange('contactPhone', e.target.value)}
-                      placeholder="+92 300 1234567"
+                      placeholder="+91 9975xxxxxx"
                     />
                   </div>
                   <div className="space-y-2">
@@ -419,7 +419,7 @@ export default function EntrepreneurProfilePage() {
                       type="tel"
                       value={formData.contactWhatsapp}
                       onChange={(e) => handleInputChange('contactWhatsapp', e.target.value)}
-                      placeholder="+92 300 1234567"
+                      placeholder="+91 9975xxxxxx"
                     />
                   </div>
                 </div>

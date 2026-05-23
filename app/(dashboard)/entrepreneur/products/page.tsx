@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -58,83 +58,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { formatPrice, formatDate } from "@/lib/utils/helpers";
 import { toast } from "sonner";
 
-// Mock data
-const products = [
-  {
-    _id: "1",
-    title: "Hand-Embroidered Silk Cushion Cover",
-    slug: "hand-embroidered-silk-cushion-cover",
-    images: ["/placeholder.svg?height=60&width=60"],
-    price: 4500,
-    compareAtPrice: 5500,
-    category: { name: "Home Decor" },
-    inventory: { quantity: 15 },
-    status: "active",
-    rating: 4.8,
-    reviewCount: 23,
-    sales: 45,
-    createdAt: "2024-01-10",
-  },
-  {
-    _id: "2",
-    title: "Zardozi Embroidered Clutch Bag",
-    slug: "zardozi-embroidered-clutch-bag",
-    images: ["/placeholder.svg?height=60&width=60"],
-    price: 8500,
-    category: { name: "Accessories" },
-    inventory: { quantity: 8 },
-    status: "active",
-    rating: 5.0,
-    reviewCount: 15,
-    sales: 32,
-    createdAt: "2024-01-08",
-  },
-  {
-    _id: "3",
-    title: "Traditional Phulkari Dupatta",
-    slug: "traditional-phulkari-dupatta",
-    images: ["/placeholder.svg?height=60&width=60"],
-    price: 5000,
-    compareAtPrice: 6000,
-    category: { name: "Clothing" },
-    inventory: { quantity: 0 },
-    status: "out_of_stock",
-    rating: 4.7,
-    reviewCount: 28,
-    sales: 28,
-    createdAt: "2024-01-05",
-  },
-  {
-    _id: "4",
-    title: "Hand-Painted Truck Art Tray",
-    slug: "hand-painted-truck-art-tray",
-    images: ["/placeholder.svg?height=60&width=60"],
-    price: 3500,
-    category: { name: "Home Decor" },
-    inventory: { quantity: 20 },
-    status: "draft",
-    rating: 0,
-    reviewCount: 0,
-    sales: 0,
-    createdAt: "2024-01-20",
-  },
-  {
-    _id: "5",
-    title: "Copper Engraved Tea Set",
-    slug: "copper-engraved-tea-set",
-    images: ["/placeholder.svg?height=60&width=60"],
-    price: 9500,
-    compareAtPrice: 11000,
-    category: { name: "Kitchen" },
-    inventory: { quantity: 5 },
-    status: "active",
-    rating: 4.6,
-    reviewCount: 18,
-    sales: 15,
-    createdAt: "2024-01-12",
-  },
-];
-
 const statusConfig: Record<string, { label: string; color: string }> = {
   active: { label: "Active", color: "bg-green-100 text-green-800" },
   draft: { label: "Draft", color: "bg-gray-100 text-gray-800" },
@@ -146,8 +69,25 @@ export default function EntrepreneurProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/v1/products?limit=50');
+        const json = await response.json();
+        if (response.ok && json.success) {
+          setProducts(json.data.products || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch products', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.title

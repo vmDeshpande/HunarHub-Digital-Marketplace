@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
-import { formatPrice, getInitials } from '@/lib/utils/helpers';
+import { formatPrice, getImageByName, getInitials } from '@/lib/utils/helpers';
 
 interface ServiceCardProps {
   service: {
@@ -68,12 +68,16 @@ export function ServiceCard({ service }: ServiceCardProps) {
     }
   };
 
+  const imageSrc = imageError
+    ? getImageByName(service.title)
+    : service.images[0] || getImageByName(service.title);
+
   return (
     <Card className="group overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow">
       <Link href={`/services/${service.slug}`}>
         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
           <Image
-            src={imageError ? '/images/placeholder-service.jpg' : service.images[0] || '/images/placeholder-service.jpg'}
+            src={imageSrc}
             alt={service.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"

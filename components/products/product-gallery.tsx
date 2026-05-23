@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { getImageByName } from '@/lib/utils/helpers';
 
 interface ProductGalleryProps {
   images: string[];
@@ -33,7 +34,9 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
   };
 
   const getImageSrc = (index: number) => {
-    return imageErrors[index] ? '/images/placeholder-product.jpg' : images[index];
+    return imageErrors[index]
+      ? getImageByName(title)
+      : images[index];
   };
 
   return (
@@ -120,7 +123,7 @@ export function ProductGallery({ images, title }: ProductGalleryProps) {
               )}
             >
               <Image
-                src={imageErrors[index] ? '/images/placeholder-product.jpg' : image}
+                src={imageErrors[index] ? 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80' : image}
                 alt={`${title} - Thumbnail ${index + 1}`}
                 fill
                 className="object-cover"
